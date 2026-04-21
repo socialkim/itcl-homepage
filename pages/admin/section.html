@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>페이지 편집 · ITCL 관리자</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/styles.css" />
+  <link rel="stylesheet" href="../../assets/admin.css" />
+  <script>window.ITCL_ADMIN_BASE='..';</script>
+  <style>
+    .content-editor textarea { min-height: 72px; }
+    .content-editor .section-block { border: 1px solid var(--border-2); border-radius: 8px; padding: 16px; margin-top: 12px; position: relative; }
+    .content-editor .section-block .block-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+    .content-editor .section-block .block-type { font-size:11px; color:var(--accent); font-family:'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:0.1em; }
+    .json-editor { font-family:'JetBrains Mono', monospace; font-size:12.5px; min-height: 320px; }
+    .mode-tabs { display:flex; gap:6px; margin-bottom:16px; }
+    .mode-tabs button { padding:8px 14px; font-size:13px; border-radius:8px 8px 0 0; border:1px solid var(--border); border-bottom:0; background:var(--bg-soft); cursor:pointer; }
+    .mode-tabs button.active { background:#fff; color:var(--accent); }
+  </style>
+</head>
+<body>
+  <main class="admin-main">
+    <h1 class="page-h1" id="pageTitle">페이지 편집</h1>
+    <p class="page-sub" id="pageSub">페이지별 콘텐츠를 수정합니다. 저장하면 공개 페이지에 즉시 반영됩니다.</p>
+
+    <div id="alerts"></div>
+
+    <div class="mode-tabs">
+      <button data-mode="form" class="active">양식 편집</button>
+      <button data-mode="json">고급 (JSON 직접 편집)</button>
+    </div>
+
+    <div class="card" id="modeForm">
+      <div id="formFields">로드 중...</div>
+    </div>
+
+    <div class="card" id="modeJson" style="display:none;">
+      <h2>JSON 직접 편집</h2>
+      <div class="desc">고급 사용자용. 잘못된 JSON을 저장하면 페이지가 깨질 수 있습니다.</div>
+      <div class="form-field">
+        <textarea id="jsonEditor" class="json-editor" spellcheck="false"></textarea>
+      </div>
+    </div>
+
+    <div class="btn-group" style="margin-top:20px;">
+      <button type="button" class="btn primary" id="saveBtn">저장</button>
+      <a href="dashboard.html" class="btn secondary">취소</a>
+      <a id="previewLink" target="_blank" class="btn secondary">공개 페이지 보기 ↗</a>
+    </div>
+  </main>
+
+  <script src="../../assets/admin.js"></script>
+  <script>
+    (async () => {
+      if (!(await ITCL_checkSession())) return;
+
+      const urlParams = new URLSearchParams(location.search);
+      const page = urlParams.get('page') || 'home';
+      ITCL_renderShell(page);
+
+      const PAGE_LABELS = {
+        home: '메인 페이지',
+        about: '회사 소개',
+        services: '4대 핵심 서비스',
+        leaders: '대표강사',
+        partners: '파트너 강사',
+        programs: '교육 프로그램',
+        resources: '리소스 (저서·미디어)',
+      };
+      const PAGE_PATHS = {
+        home: '../../index.html',
+        about: '../../pages/about.html',
+        services: '../../pages/services.html',
+        leaders: '../../pages/leaders.html',
+        partners: '../../pages/partners.html',
+        programs: '../../pages/programs.html',
+        resources: '../../pages/resources.html',
+      };
+
+      document.getElementById('pageTitle').textContent = `${PAGE_LABELS[page] || page} 편집`;
+      document.getElementById('previewLink').href = PAGE_PATHS[page] || '../../index.html';
+
+      let currentContent = {};
+      let currentItem = null;
+
+      try {
+        const res = await ITCL_api('/api/admin/sections', { query: { page } });
+        currentItem = res.item;
+        currentContent = currentItem.content || {};
+      } catch (e) {
+        document.getElementById('alerts').innerHTML = `<div class="alert error">${ITCL_esc(e.message)}<br><small>schema-admin.sql이 실행되었는지 확인하세요.</small></div>`;
+        return;
+      }
+
+      // 양식 편집 - 각 page별로 다른 필드 구성
+      const FIELD_DEFS = buildFieldDefs(page, currentContent);
+      renderForm(FIELD_DEFS, currentContent);
+      document.getElementById('jsonEditor').value = JSON.stringify(currentContent, null, 2);
+
+      function buildFieldDefs(page, content) {
+        // 페이지별 핵심 필드 정의 (나머지는 JSON 모드에서 편집)
+        const common = [
+          { key: 'hero_title', label: '히어로 타이틀', type: 'textarea' },
+          { key: 'hero_subtitle', label: '히어로 서브타이틀', type: 'textarea' },
+        ];
+        if (page === 'home') return [
+          { key: 'hero_kicker', label: '상단 배지 문구 (영문)', type: 'text' },
+          { key: 'hero_title_html', label: '히어로 타이틀 (HTML 허용)', type: 'textarea' },
+          { key: 'hero_subtitle', label: '히어로 서브타이틀', type: 'textarea' },
+          { key: 'primary_cta_text', label: '메인 CTA 텍스트', type: 'text' },
+          { key: 'primary_cta_href', label: '메인 CTA 링크', type: 'text' },
+          { key: 'secondary_cta_text', label: '보조 CTA 텍스트', type: 'text' },
+          { key: 'secondary_cta_href', label: '보조 CTA 링크', type: 'text' },
+        ];
+        if (page === 'about') return [
+          ...common,
+          { key: 'mission', label: '미션 (Mission)', type: 'textarea' },
+          { key: 'vision', label: '비전 (Vision)', type: 'textarea' },
+          { key: 'values', label: '핵심 가치 (JSON 배열: [{title, desc}, ...])', type: 'json' },
+          { key: 'stats', label: '통계 (JSON 배열: [{value, label}, ...])', type: 'json' },
+        ];
+        if (page === 'services') return [
+          ...common,
+          { key: 'services', label: '서비스 목록 (JSON 배열)', type: 'json' },
+        ];
+        if (page === 'leaders') return [
+          ...common,
+          { key: 'leaders', label: '대표강사 목록 (JSON 배열: [{id,name_ko,name_en,role,tagline,bio,photo_url,specialties}, ...])', type: 'json' },
+        ];
+        if (page === 'partners') return [
+          ...common,
+          { key: 'partners', label: '파트너 강사진 목록 (JSON 배열: [{name, role, bio}, ...])', type: 'json' },
+        ];
+        if (page === 'programs') return [
+          ...common,
+          { key: 'flagship', label: '플래그십 프로그램 (JSON 객체)', type: 'json' },
+          { key: 'short_programs', label: '쇼트 프로그램 목록 (JSON 배열)', type: 'json' },
+        ];
+        if (page === 'resources') return [
+          ...common,
+          { key: 'books', label: '저서 목록 (JSON 배열)', type: 'json' },
+          { key: 'media', label: '미디어 출연 (JSON 배열)', type: 'json' },
+        ];
+        return common;
+      }
+
+      function renderForm(defs, content) {
+        const el = document.getElementById('formFields');
+        el.innerHTML = defs.map((d) => {
+          const val = content[d.key];
+          if (d.type === 'json') {
+            const pretty = val == null ? '' : JSON.stringify(val, null, 2);
+            return `
+              <div class="form-field">
+                <label>${ITCL_esc(d.label)}</label>
+                <textarea data-key="${d.key}" data-type="json" class="json-editor">${ITCL_esc(pretty)}</textarea>
+                <div class="hint">JSON 배열/객체. 형식 오류 시 저장 실패.</div>
+              </div>`;
+          }
+          if (d.type === 'textarea') {
+            return `
+              <div class="form-field">
+                <label>${ITCL_esc(d.label)}</label>
+                <textarea data-key="${d.key}" data-type="text" rows="3">${ITCL_esc(val || '')}</textarea>
+              </div>`;
+          }
+          return `
+            <div class="form-field">
+              <label>${ITCL_esc(d.label)}</label>
+              <input type="text" data-key="${d.key}" data-type="text" value="${ITCL_esc(val || '')}" />
+            </div>`;
+        }).join('');
+      }
+
+      // mode 탭
+      let mode = 'form';
+      document.querySelectorAll('.mode-tabs button').forEach(btn => {
+        btn.addEventListener('click', () => {
+          // 현재 모드의 값을 반영
+          syncFromCurrentMode();
+          mode = btn.dataset.mode;
+          document.querySelectorAll('.mode-tabs button').forEach(b => b.classList.toggle('active', b === btn));
+          document.getElementById('modeForm').style.display = mode === 'form' ? '' : 'none';
+          document.getElementById('modeJson').style.display = mode === 'json' ? '' : 'none';
+          if (mode === 'form') {
+            renderForm(FIELD_DEFS, currentContent);
+          } else {
+            document.getElementById('jsonEditor').value = JSON.stringify(currentContent, null, 2);
+          }
+        });
+      });
+
+      function syncFromCurrentMode() {
+        if (mode === 'form') {
+          const inputs = document.querySelectorAll('#formFields [data-key]');
+          for (const el of inputs) {
+            const key = el.dataset.key;
+            const type = el.dataset.type;
+            if (type === 'json') {
+              try { currentContent[key] = el.value.trim() ? JSON.parse(el.value) : null; } catch (e) {
+                throw new Error(`"${key}" JSON 형식 오류: ${e.message}`);
+              }
+            } else {
+              currentContent[key] = el.value;
+            }
+          }
+        } else {
+          const text = document.getElementById('jsonEditor').value;
+          try { currentContent = JSON.parse(text); } catch (e) {
+            throw new Error('JSON 형식 오류: ' + e.message);
+          }
+        }
+      }
+
+      document.getElementById('saveBtn').addEventListener('click', async () => {
+        try {
+          syncFromCurrentMode();
+        } catch (e) {
+          ITCL_toast(e.message, 'error');
+          return;
+        }
+        try {
+          await ITCL_api('/api/admin/sections', {
+            method: 'PUT',
+            query: { page },
+            body: { content: currentContent },
+          });
+          ITCL_toast('저장되었습니다', 'success');
+        } catch (e) {
+          ITCL_toast('저장 실패: ' + e.message, 'error');
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

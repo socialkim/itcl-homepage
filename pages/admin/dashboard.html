@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>대시보드 · ITCL 관리자</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/styles.css" />
+  <link rel="stylesheet" href="../../assets/admin.css" />
+  <script>window.ITCL_ADMIN_BASE='..';</script>
+</head>
+<body>
+  <main class="admin-main">
+    <h1 class="page-h1">대시보드</h1>
+    <p class="page-sub">사이트 현황을 한눈에 확인하세요.</p>
+
+    <div id="alerts"></div>
+
+    <div class="stat-grid" id="statGrid">
+      <div class="stat"><div class="label">문의 · 전체</div><div class="value" id="stSubTotal">-</div></div>
+      <div class="stat"><div class="label">문의 · 미처리</div><div class="value" id="stSubNew">-</div></div>
+      <div class="stat"><div class="label">문의 · 처리중</div><div class="value" id="stSubInProg">-</div></div>
+      <div class="stat"><div class="label">문의 · 완료</div><div class="value" id="stSubResolved">-</div></div>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat"><div class="label">인사이트 · 게시</div><div class="value" id="stInsPub">-</div><div class="delta" id="stInsDraft"></div></div>
+      <div class="stat"><div class="label">교육사례 · 게시</div><div class="value" id="stCasesPub">-</div><div class="delta" id="stCasesDraft"></div></div>
+      <div class="stat"><div class="label">관리자 이메일 · 활성</div><div class="value" id="stEmails">-</div></div>
+    </div>
+
+    <div class="card">
+      <h2>최근 문의 5건</h2>
+      <div id="recentList">불러오는 중...</div>
+    </div>
+
+    <div class="card">
+      <h2>빠른 작업</h2>
+      <div class="btn-group">
+        <a href="insights.html" class="btn primary">+ 새 인사이트 작성</a>
+        <a href="cases.html" class="btn primary">+ 새 교육사례 작성</a>
+        <a href="submissions.html" class="btn secondary">문의 관리 →</a>
+        <a href="settings.html" class="btn secondary">사이트 설정 →</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="../../assets/admin.js"></script>
+  <script>
+    (async () => {
+      if (!(await ITCL_checkSession())) return;
+      ITCL_renderShell('dashboard');
+
+      try {
+        const s = await ITCL_api('/api/admin/stats');
+        document.getElementById('stSubTotal').textContent = s.submissions.total;
+        document.getElementById('stSubNew').textContent = s.submissions.new;
+        document.getElementById('stSubInProg').textContent = s.submissions.in_progress;
+        document.getElementById('stSubResolved').textContent = s.submissions.resolved;
+        document.getElementById('stInsPub').textContent = s.insights.published;
+        document.getElementById('stInsDraft').textContent = s.insights.drafts ? `+${s.insights.drafts} 초안` : '';
+        document.getElementById('stCasesPub').textContent = s.cases.published;
+        document.getElementById('stCasesDraft').textContent = s.cases.drafts ? `+${s.cases.drafts} 초안` : '';
+        document.getElementById('stEmails').textContent = s.admin_emails.active;
+      } catch (e) {
+        document.getElementById('alerts').innerHTML = `<div class="alert error">통계 로드 실패: ${ITCL_esc(e.message)}. 관리자 테이블이 아직 생성되지 않았을 수 있습니다. <strong>schema-admin.sql을 Supabase에서 실행</strong>해주세요.</div>`;
+      }
+
+      try {
+        const { items = [] } = await ITCL_api('/api/admin/submissions');
+        const recent = items.slice(0, 5);
+        const el = document.getElementById('recentList');
+        if (!recent.length) {
+          el.innerHTML = '<div style="color:var(--muted); font-size:13px;">아직 문의가 없습니다.</div>';
+          return;
+        }
+        el.innerHTML = `
+          <table class="table">
+            <thead><tr><th>접수시간</th><th>주제</th><th>담당자</th><th>소속</th><th>상태</th></tr></thead>
+            <tbody>
+              ${recent.map(r => `
+                <tr>
+                  <td>${ITCL_fmtDate(r.created_at)}</td>
+                  <td>${ITCL_esc(r.topic)}</td>
+                  <td>${ITCL_esc(r.name)}</td>
+                  <td>${ITCL_esc(r.company)}</td>
+                  <td><span class="badge ${r.status}">${r.status}</span></td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        `;
+      } catch (e) {
+        document.getElementById('recentList').innerHTML = `<div class="alert error">문의 목록 로드 실패: ${ITCL_esc(e.message)}</div>`;
+      }
+    })();
+  </script>
+</body>
+</html>

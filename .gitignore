@@ -1,0 +1,48 @@
+# Vercel CLI local state
+.vercel
+
+# 에이전트 작업공간 (스크린샷·임시파일)
+_workspace/
+
+# 관리자 비밀번호 (절대 커밋 금지)
+ADMIN-CREDENTIALS.md
+_admin_*.tmp
+
+# 시스템 파일
+.DS_Store
+Thumbs.db
+*.log
+
+# 디자이너 초안 (배포 제외 대상)
+ITCL Hero 비교 시안.html
+ITCL 홈페이지 v3 Clean Tech.html
+uploads/itcl_homepage_step2_guide.md
+uploads/itcl_homepage_v2.html
+
+# 레거시 SQL·가이드 스크립트
+supabase-fix-policy.sql
+dns-records-for-hosting.txt
+vercel-env-setup.txt
+
+# node_modules (향후 대비)
+node_modules/
+package-lock.json
+yarn.lock
+
+# 에디터 설정
+.vscode/
+.idea/
+*.swp
+
+# Claude Code 로컬 권한 (컴퓨터별 개인 설정)
+.claude/settings.local.json
+
+# 환경변수 파일 (혹시라도)
+.env
+.env.local
+.env.production
+
+# 개인 메모·비밀번호 파일
+수파베이스*.txt
+*비밀번호*.txt
+*password*.txt

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Insight · ITCL</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"/>
+<link rel="stylesheet" href="../assets/styles.css"/>
+<style>
+.article-hero{padding:72px 40px 48px;max-width:860px;margin:0 auto}
+.article-hero .crumb{margin-bottom:28px}
+.article-cat{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.18em;color:var(--accent);text-transform:uppercase;margin-bottom:16px;font-weight:700}
+.article-title{font-size:clamp(32px,4.5vw,52px);font-weight:700;letter-spacing:-0.03em;line-height:1.1;margin-bottom:28px}
+.article-meta{display:flex;gap:18px;align-items:center;font-size:13px;color:var(--muted);padding-bottom:28px;border-bottom:1px solid var(--border);margin-bottom:0}
+.article-meta .author{display:flex;align-items:center;gap:10px;color:var(--ink);font-weight:600}
+.article-meta .author .av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:13px}
+.article-thumb{max-width:1040px;margin:0 auto;aspect-ratio:16/8;background:linear-gradient(135deg,rgba(99,91,255,0.1),rgba(0,212,180,0.08));border-radius:20px;display:flex;align-items:center;justify-content:center;margin-bottom:56px}
+.article-thumb svg{width:64px;height:64px;color:var(--muted-2);opacity:0.6}
+.article-body{max-width:760px;margin:0 auto;padding:0 40px 80px;font-size:17px;line-height:1.85;color:var(--ink-mid)}
+.article-body h2{font-size:28px;font-weight:700;letter-spacing:-0.02em;line-height:1.25;margin:56px 0 20px;color:var(--ink)}
+.article-body h3{font-size:21px;font-weight:700;letter-spacing:-0.015em;margin:40px 0 14px;color:var(--ink)}
+.article-body p{margin-bottom:22px}
+.article-body ul,.article-body ol{margin:18px 0 24px 24px}
+.article-body li{margin-bottom:8px}
+.article-body blockquote{border-left:3px solid var(--accent);padding:6px 0 6px 24px;margin:28px 0;font-size:19px;font-style:italic;color:var(--ink-soft)}
+.article-body code{background:var(--bg-soft);padding:2px 8px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--accent-deep)}
+.article-body strong{color:var(--ink);font-weight:600}
+.article-body .lead{font-size:20px;color:var(--ink-soft);line-height:1.6;margin-bottom:40px;font-weight:400}
+.article-share{max-width:760px;margin:0 auto;padding:32px 40px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.share-btns{display:flex;gap:8px}
+.share-btn{width:38px;height:38px;border-radius:50%;background:var(--bg-soft);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--ink-soft);transition:all 0.15s;cursor:pointer}
+.share-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.related{max-width:1040px;margin:72px auto 0;padding:0 40px 80px}
+.related h3{font-size:24px;font-weight:700;letter-spacing:-0.02em;margin-bottom:24px}
+.related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.rel-card{border:1px solid var(--border);border-radius:14px;padding:20px;transition:all 0.2s;display:block}
+.rel-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.rel-cat{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;color:var(--accent);text-transform:uppercase;margin-bottom:10px;font-weight:700}
+.rel-title{font-size:15px;font-weight:600;letter-spacing:-0.01em;line-height:1.35;color:var(--ink)}
+@media (max-width:768px){.related-grid{grid-template-columns:1fr}}
+</style><!-- SEO ~ auto-injected by _workspace/inject-seo.js ~ -->
+<link rel="canonical" href="https://itcl.kr/pages/insights-detail.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ITCL · IT커뮤니케이션연구소">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="Insight · ITCL">
+<meta property="og:description" content="ITCL 인사이트 칼럼.">
+<meta property="og:url" content="https://itcl.kr/pages/insights-detail.html">
+<meta property="og:image" content="https://itcl.kr/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Insight · ITCL">
+<meta name="twitter:description" content="ITCL 인사이트 칼럼.">
+<meta name="twitter:image" content="https://itcl.kr/assets/og-default.png">
+<meta name="theme-color" content="#635bff">
+<meta name="robots" content="index,follow">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<!-- ~ end SEO block ~ -->
+</head>
+<body>
+<script>window.ITCL_PAGE='insights';window.ITCL_BASE='..';</script>
+
+<div id="art"></div>
+
+<section class="article-share">
+  <div style="color:var(--muted);font-size:13px">이 글이 도움이 되셨다면 공유해주세요.</div>
+  <div class="share-btns">
+    <a class="share-btn" title="Copy link" onclick="navigator.clipboard.writeText(location.href);this.innerHTML='✓'"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a>
+    <a class="share-btn" title="LinkedIn"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"/></svg></a>
+    <a class="share-btn" title="KakaoTalk"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C6.48 3 2 6.58 2 11c0 2.85 1.85 5.35 4.63 6.74l-1.17 4.26 4.95-3.25c.52.07 1.05.11 1.59.11 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg></a>
+  </div>
+</section>
+
+<section class="related">
+  <h3>관련 인사이트</h3>
+  <div class="related-grid" id="related"></div>
+</section>
+
+<script>
+const POSTS={
+  'ai-agent-paradigm':{catL:'트렌드',t:'AI 에이전트 시대, 조직은 무엇을 준비해야 하는가',a:'김덕진 소장',i:'KD',date:'2026.04.08',read:'8분',html:`
+    <p class="lead">단순히 질문에 답하는 챗봇에서, 업무를 스스로 계획하고 도구를 호출해 "실행"하는 AI 에이전트로 — 2025년 하반기부터 가속된 이 전환은 이제 조직 단위 도입 단계로 들어섰다. 현장에서 마주한 질문은 기술보다 조직에 관한 것이었다.</p>
+    <h2>"챗봇"과 "에이전트"의 근본적 차이</h2>
+    <p>많은 기업이 여전히 에이전트를 "좀 더 똑똑한 챗봇"으로 이해하려 한다. 하지만 현장에 들어가보면 이 둘은 <strong>도입 난이도, 리스크 구조, 성과 측정 방식이 전혀 다르다.</strong> 챗봇은 "사람에게 답을 주는 도구"이고, 에이전트는 "사람을 대신해 무언가를 수행하는 주체"다. 이 차이가 인식되지 않으면 도입 후 6개월 안에 프로젝트는 거의 반드시 정체된다.</p>
+    <h2>가장 먼저 바뀌어야 할 세 가지</h2>
+    <h3>1. 권한과 감사로그 체계</h3>
+    <p>에이전트가 실제로 업무를 수행한다는 것은, 어느 시점에 <strong>무엇을, 어떤 권한으로, 누구의 지시를 받아 수행했는지</strong>가 추적 가능해야 한다는 뜻이다. 기존 IAM 체계는 사람을 전제로 설계되어 있어, 에이전트를 일급 시민으로 다루지 못한다.</p>
+    <h3>2. 의사결정 경계선</h3>
+    <p>"에이전트가 어디까지 결정하고, 어디서부터 사람이 개입하는가?"는 도입 직후 반드시 부딪히는 질문이다. 이 경계선은 업무별로 다르게 정의되어야 하며, 시간이 지나며 계속 조정되어야 한다.</p>
+    <blockquote>도입 1년차에 가장 자주 보는 실패는, 이 경계선을 미리 정의하지 않고 "알아서 잘해라" 상태로 에이전트를 풀어놓는 것이다.</blockquote>
+    <h3>3. KPI 재설계</h3>
+    <p>에이전트가 업무를 대신하는 순간, 기존 "업무량 기반 KPI"는 의미를 잃는다. 조직은 <strong>"사람이 기여한 가치"를 새로 정의</strong>해야 하고, 이 재정의 없이는 구성원의 저항을 피할 수 없다.</p>
+    <h2>HR이 지금 시작해야 할 일</h2>
+    <ul>
+      <li><strong>직무기술서의 재작성:</strong> "무엇을 하는 사람인가"에서 "무엇을 판단하고 책임지는 사람인가"로</li>
+      <li><strong>에이전트 리터러시 커리큘럼:</strong> 도구 사용법이 아닌, 에이전트를 감독하는 역량</li>
+      <li><strong>평가 지표의 이원화:</strong> 개인 성과 + 에이전트와의 협업 효율</li>
+    </ul>
+    <h2>마치며</h2>
+    <p>에이전트는 도구가 아니라 <strong>새로운 형태의 구성원</strong>이다. 이 관점을 받아들이는 조직이 다음 2년 동안 확실히 앞서나갈 것이고, 반대로 이 전환을 놓치는 조직은 기존 생산성 우위를 잃게 될 것이다. ITCL이 최근 임원 대상 프로그램에서 가장 많은 시간을 들이는 주제이기도 하다.</p>`},
+  'physical-ai':{catL:'트렌드',t:'피지컬 AI: 2026년 산업 지형을 바꾸는 세 가지 신호',a:'김덕진 소장',i:'KD',date:'2026.04.01',read:'6분',html:`
+    <p class="lead">CES 2026 현장에서, 그리고 최근 한 달간 쏟아진 로봇·자율주행 분야 투자 공시에서 공통적으로 확인된 신호 세 가지. 피지컬 AI는 더 이상 "미래 기술"이 아니라 이미 산업 지형을 바꾸고 있다.</p>
+    <h2>신호 1: 휴머노이드의 공장 진입</h2>
+    <p>2025년까지는 "시연 단계"였던 휴머노이드 로봇이, 2026년 들어 실제 제조 라인에 배치되기 시작했다. 핵심은 범용 휴머노이드 자체가 아니라, <strong>"학습된 동작의 조직 간 전이"</strong>가 가능해졌다는 점이다.</p>
+    <h2>신호 2: 엔드투엔드 학습 기반 자율주행</h2>
+    <p>규칙 기반 모듈을 결합하던 기존 자율주행 스택이, <strong>센서 → 판단 → 제어를 하나의 신경망으로 통합하는 방식</strong>으로 빠르게 전환되고 있다. 이는 학습 데이터의 양과 품질이 곧 성능이 된다는 뜻이고, 자동차 회사의 경쟁 지형이 데이터 전쟁으로 옮겨가고 있음을 의미한다.</p>
+    <h2>신호 3: 의료·물류의 "손" 로봇</h2>
+    <p>정밀한 그립이 필요한 분야 — 수술 보조, 약제 조제, 이커머스 피킹 — 에서 단일 목적 로봇이 빠르게 확산 중이다. 이쪽은 범용 휴머노이드보다 훨씬 빠른 ROI를 보여준다.</p>
+    <h2>한국 기업이 준비해야 할 것</h2>
+    <ul>
+      <li>자사 공정·업무 중 "반복적 물리 동작"의 맵핑</li>
+      <li>데이터 수집·라벨링 파이프라인 내재화</li>
+      <li>로봇·사람 협업 설계 역량 확보</li>
+    </ul>`},
+  'workflow-thinking':{catL:'전략',t:'"워크플로 사고": AI 도입이 실패하는 진짜 이유',a:'김아람 이사',i:'KA',date:'2026.03.24',read:'7분',html:`
+    <p class="lead">100명 넘는 실무자를 인터뷰하면서 확인한 사실 하나. AI를 "잘 쓰는 조직"과 "쓴다고만 하는 조직"의 차이는 도구나 스킬이 아니라, <strong>업무를 프로세스로 분해해서 보는 습관</strong>이었다.</p>
+    <h2>도구는 같은데 왜 결과는 다른가</h2>
+    <p>같은 ChatGPT, 같은 Claude를 쓰는데 어떤 팀은 주당 10시간을 절약하고, 어떤 팀은 오히려 검토 시간이 늘어난다. 현장에 들어가서 본 차이는 명확했다. 성공하는 팀은 업무를 <strong>"정보 수집 → 구조화 → 판단 → 산출 → 검증"</strong>의 단계로 쪼개 보고, 각 단계마다 AI의 강점과 사람의 강점을 분리한다.</p>
+    <h2>워크플로 사고의 3단계</h2>
+    <h3>1단계: 업무의 해체</h3>
+    <p>"보고서 쓰기"가 아니라 "이 보고서를 쓰기 위해 내가 실제로 하는 12가지 마이크로 태스크"를 종이에 나열한다. 대부분의 사람이 이 단계에서 놀란다. 자기 업무를 이렇게 자세히 들여다본 적이 없기 때문이다.</p>
+    <h3>2단계: 강점 매칭</h3>
+    <p>각 마이크로 태스크마다 묻는다. 이건 AI가 더 잘하는가, 사람이 더 잘하는가, 아니면 둘이 함께해야 하는가?</p>
+    <h3>3단계: 재조립</h3>
+    <p>쪼갠 것을 다시 붙인다. 이때 <strong>AI 단계와 사람 단계 사이의 인터페이스</strong>가 핵심이다. AI가 만든 산출물을 사람이 어떻게 받고, 검토 기준이 무엇인지를 미리 합의하는 일이 결과 품질의 80%를 좌우한다.</p>
+    <blockquote>AI 도입의 병목은 기술이 아니라 "업무를 들여다보는 훈련"이다.</blockquote>`}
+};
+function render(id){
+  const p=POSTS[id]||POSTS['ai-agent-paradigm'];
+  document.getElementById('art').innerHTML=`
+    <section class="article-hero">
+      <div class="crumb"><a href="../index.html">Home</a><span class="sep">/</span><a href="insights.html">Insights</a><span class="sep">/</span><span>${p.catL}</span></div>
+      <span class="article-cat">● ${p.catL}</span>
+      <h1 class="article-title">${p.t}</h1>
+      <div class="article-meta">
+        <div class="author"><div class="av">${p.i}</div>${p.a}</div>
+        <span>·</span><span>${p.date}</span><span>·</span><span>${p.read} 읽기</span>
+      </div>
+    </section>
+    <div class="article-thumb">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+    </div>
+    <article class="article-body">${p.html}</article>`;
+  const others=Object.entries(POSTS).filter(([k])=>k!==id).slice(0,3);
+  document.getElementById('related').innerHTML=others.map(([k,v])=>`
+    <a class="rel-card" href="insights-detail.html?id=${k}">
+      <div class="rel-cat">${v.catL}</div>
+      <div class="rel-title">${v.t}</div>
+    </a>`).join('');
+}
+const id=new URLSearchParams(location.search).get('id')||'ai-agent-paradigm';
+render(id);
+</script>
+<script src="../assets/layout.js"></script>
+</body></html>

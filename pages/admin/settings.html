@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>사이트 설정 · ITCL 관리자</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/styles.css" />
+  <link rel="stylesheet" href="../../assets/admin.css" />
+  <script>window.ITCL_ADMIN_BASE='..';</script>
+</head>
+<body>
+  <main class="admin-main">
+    <h1 class="page-h1">사이트 설정</h1>
+    <p class="page-sub">회사명, 로고, 연락처 등 사이트 전역에 반영되는 정보를 관리합니다. 저장하면 메인/푸터/이메일 등에 즉시 반영됩니다.</p>
+
+    <div id="alerts"></div>
+
+    <form id="configForm">
+      <div class="card">
+        <h2>기본 정보</h2>
+        <div id="fields">로드 중...</div>
+      </div>
+
+      <div class="btn-group" style="margin-top:20px;">
+        <button type="submit" class="btn primary">저장</button>
+        <a href="dashboard.html" class="btn secondary">취소</a>
+      </div>
+    </form>
+  </main>
+
+  <script src="../../assets/admin.js"></script>
+  <script>
+    (async () => {
+      if (!(await ITCL_checkSession())) return;
+      ITCL_renderShell('settings');
+
+      let items = [];
+      try {
+        const res = await ITCL_api('/api/admin/config');
+        items = res.items || [];
+      } catch (e) {
+        document.getElementById('alerts').innerHTML = `<div class="alert error">설정 로드 실패: ${ITCL_esc(e.message)}<br><small>schema-admin.sql을 Supabase에서 실행했는지 확인하세요.</small></div>`;
+        return;
+      }
+
+      const fields = document.getElementById('fields');
+      fields.innerHTML = items.map((it) => {
+        const id = `f_${it.key}`;
+        const type = it.type || 'text';
+        const val = ITCL_esc(it.value || '');
+        let input = '';
+        if (type === 'textarea') {
+          input = `<textarea id="${id}" data-key="${it.key}" rows="3">${val}</textarea>`;
+        } else {
+          const inputType = ({url:'url',email:'email',phone:'tel',image_url:'url'})[type] || 'text';
+          input = `<input type="${inputType}" id="${id}" data-key="${it.key}" value="${val}" />`;
+        }
+        return `
+          <div class="form-field">
+            <label for="${id}">${ITCL_esc(it.label || it.key)}</label>
+            ${input}
+            ${it.description ? `<div class="hint">${ITCL_esc(it.description)}</div>` : ''}
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('configForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const inputs = fields.querySelectorAll('[data-key]');
+        const payload = { items: [] };
+        inputs.forEach((el) => payload.items.push({ key: el.dataset.key, value: el.value }));
+        try {
+          await ITCL_api('/api/admin/config', { method: 'PUT', body: payload });
+          ITCL_toast('저장되었습니다', 'success');
+        } catch (e) {
+          ITCL_toast('저장 실패: ' + e.message, 'error');
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

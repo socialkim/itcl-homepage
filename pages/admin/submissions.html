@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>문의 관리 · ITCL 관리자</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/styles.css" />
+  <link rel="stylesheet" href="../../assets/admin.css" />
+  <script>window.ITCL_ADMIN_BASE='..';</script>
+  <style>
+    .submission-detail { padding: 20px; background: var(--bg-soft); border-radius: 8px; margin-top: 16px; }
+    .submission-detail dt { font-size: 12px; color: var(--muted); margin-top: 12px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase; }
+    .submission-detail dd { font-size: 14px; color: var(--ink); margin-top: 4px; line-height: 1.6; }
+    .submission-detail .message { white-space: pre-wrap; padding: 12px; background: #fff; border-radius: 6px; margin-top: 6px; border: 1px solid var(--border); }
+    .filter-bar { display:flex; gap:10px; margin-bottom:16px; flex-wrap:wrap; }
+    .filter-bar button { padding:8px 14px; font-size:13px; border-radius:999px; border:1px solid var(--border); background:#fff; cursor:pointer; }
+    .filter-bar button.active { background:var(--ink); color:#fff; border-color:var(--ink); }
+  </style>
+</head>
+<body>
+  <main class="admin-main">
+    <h1 class="page-h1">문의 관리</h1>
+    <p class="page-sub">접수된 문의를 조회하고 상태를 관리합니다.</p>
+
+    <div id="alerts"></div>
+
+    <div class="filter-bar">
+      <button data-filter="" class="active">전체</button>
+      <button data-filter="new">미처리</button>
+      <button data-filter="in_progress">처리중</button>
+      <button data-filter="resolved">완료</button>
+      <button data-filter="archived">보관</button>
+    </div>
+
+    <div class="card" style="padding:0; overflow:hidden;">
+      <div id="list"><div style="padding:20px; color:var(--muted);">로드 중...</div></div>
+    </div>
+
+    <div class="card" id="detailCard" style="display:none;">
+      <h2>문의 상세</h2>
+      <div id="detail"></div>
+    </div>
+  </main>
+
+  <script src="../../assets/admin.js"></script>
+  <script>
+    (async () => {
+      if (!(await ITCL_checkSession())) return;
+      ITCL_renderShell('submissions');
+
+      let currentFilter = '';
+
+      async function load() {
+        try {
+          const { items = [] } = await ITCL_api('/api/admin/submissions', { query: { status: currentFilter || undefined } });
+          if (!items.length) {
+            document.getElementById('list').innerHTML = '<div style="padding:20px; color:var(--muted);">해당 조건의 문의가 없습니다.</div>';
+            return;
+          }
+          document.getElementById('list').innerHTML = `
+            <table class="table">
+              <thead><tr><th>접수</th><th>주제</th><th>담당자</th><th>소속</th><th>이메일</th><th>인원</th><th>상태</th><th></th></tr></thead>
+              <tbody>
+                ${items.map(r => `
+                  <tr>
+                    <td>${ITCL_fmtDate(r.created_at)}</td>
+                    <td>${ITCL_esc(r.topic)}</td>
+                    <td><strong>${ITCL_esc(r.name)}</strong></td>
+                    <td>${ITCL_esc(r.company)}</td>
+                    <td style="font-size:12px;"><a href="mailto:${ITCL_esc(r.email)}" style="color:var(--accent);">${ITCL_esc(r.email)}</a></td>
+                    <td style="font-size:12px;color:var(--muted);">${ITCL_esc(r.headcount || '-')}</td>
+                    <td><span class="badge ${r.status}">${r.status}</span></td>
+                    <td><button class="btn small secondary" data-view="${r.id}">상세</button></td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          `;
+          document.querySelectorAll('[data-view]').forEach(btn => {
+            btn.addEventListener('click', () => showDetail(btn.dataset.view));
+          });
+        } catch (e) {
+          document.getElementById('list').innerHTML = `<div class="alert error" style="margin:20px;">${ITCL_esc(e.message)}</div>`;
+        }
+      }
+
+      async function showDetail(id) {
+        try {
+          const { item } = await ITCL_api('/api/admin/submissions', { query: { id } });
+          const detail = document.getElementById('detail');
+          detail.innerHTML = `
+            <dl class="submission-detail">
+              <dt>주제</dt><dd>${ITCL_esc(item.topic)}</dd>
+              <dt>담당자 / 소속</dt><dd>${ITCL_esc(item.name)} · ${ITCL_esc(item.company)}</dd>
+              <dt>연락처</dt><dd>
+                <a href="mailto:${ITCL_esc(item.email)}" style="color:var(--accent);">${ITCL_esc(item.email)}</a>
+                ${item.phone ? ' · ' + ITCL_esc(item.phone) : ''}
+              </dd>
+              <dt>교육 대상 / 규모</dt><dd>${ITCL_esc(item.audience || '-')} · ${ITCL_esc(item.headcount || '-')}</dd>
+              <dt>접수 시간</dt><dd>${ITCL_fmtDate(item.created_at)}</dd>
+              <dt>문의 내용</dt><dd><div class="message">${ITCL_esc(item.message)}</div></dd>
+              <dt>내부 메모</dt>
+              <dd>
+                <textarea id="note" rows="3" style="font-family:inherit; width:100%; padding:10px; border:1px solid var(--border); border-radius:6px;">${ITCL_esc(item.note || '')}</textarea>
+              </dd>
+              <dt>담당자 지정</dt>
+              <dd>
+                <input type="text" id="assignedTo" value="${ITCL_esc(item.assigned_to || '')}" placeholder="예: 김덕진" style="font-family:inherit; padding:10px; border:1px solid var(--border); border-radius:6px; width:240px;" />
+              </dd>
+            </dl>
+            <div class="btn-group" style="margin-top:20px;">
+              <button class="btn primary" data-save="${item.id}">메모·담당자 저장</button>
+              <button class="btn secondary" data-status="in_progress" data-id="${item.id}">처리중으로</button>
+              <button class="btn secondary" data-status="resolved" data-id="${item.id}">완료로</button>
+              <button class="btn secondary" data-status="archived" data-id="${item.id}">보관</button>
+              <a class="btn secondary" href="mailto:${ITCL_esc(item.email)}">답장 메일 보내기</a>
+            </div>
+          `;
+          document.getElementById('detailCard').style.display = 'block';
+          window.scrollTo({ top: document.getElementById('detailCard').offsetTop - 20, behavior: 'smooth' });
+
+          document.querySelector(`[data-save="${item.id}"]`).addEventListener('click', async () => {
+            try {
+              await ITCL_api('/api/admin/submissions', {
+                method: 'PATCH',
+                query: { id: item.id },
+                body: { note: document.getElementById('note').value, assigned_to: document.getElementById('assignedTo').value }
+              });
+              ITCL_toast('저장됨', 'success');
+            } catch (e) { ITCL_toast(e.message, 'error'); }
+          });
+          document.querySelectorAll('[data-status]').forEach(btn => {
+            btn.addEventListener('click', async () => {
+              try {
+                await ITCL_api('/api/admin/submissions', { method: 'PATCH', query: { id: btn.dataset.id }, body: { status: btn.dataset.status } });
+                ITCL_toast('상태 변경됨', 'success');
+                load();
+                showDetail(btn.dataset.id);
+              } catch (e) { ITCL_toast(e.message, 'error'); }
+            });
+          });
+        } catch (e) {
+          ITCL_toast(e.message, 'error');
+        }
+      }
+
+      document.querySelectorAll('.filter-bar button').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.filter-bar button').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentFilter = btn.dataset.filter;
+          load();
+        });
+      });
+
+      load();
+    })();
+  </script>
+</body>
+</html>

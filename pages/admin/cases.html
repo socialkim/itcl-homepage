@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>교육 사례 · ITCL 관리자</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/styles.css" />
+  <link rel="stylesheet" href="../../assets/admin.css" />
+  <script>window.ITCL_ADMIN_BASE='..';</script>
+  <style>
+    .editor-grid { display:grid; grid-template-columns: 1fr 280px; gap:24px; }
+    @media (max-width:1000px){ .editor-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <main class="admin-main">
+    <div id="view-list">
+      <h1 class="page-h1">교육 사례</h1>
+      <p class="page-sub">수행한 교육 프로젝트 사례를 관리합니다.</p>
+
+      <div class="btn-group" style="margin-bottom:20px;">
+        <button class="btn primary" id="newBtn">+ 새 사례 작성</button>
+      </div>
+
+      <div class="card" style="padding:0;">
+        <div id="listWrap"><div style="padding:20px;color:var(--muted);">로드 중...</div></div>
+      </div>
+    </div>
+
+    <div id="view-editor" style="display:none;">
+      <h1 class="page-h1" id="editorTitle">사례 작성</h1>
+
+      <div class="editor-grid">
+        <div>
+          <div class="card">
+            <div class="form-row">
+              <div class="form-field">
+                <label>클라이언트 명 *</label>
+                <input type="text" id="f_client" placeholder="예: ○○전자" required />
+              </div>
+              <div class="form-field">
+                <label>업종</label>
+                <select id="f_industry">
+                  <option value="대기업">대기업</option>
+                  <option value="금융">금융</option>
+                  <option value="공공">공공</option>
+                  <option value="제조">제조</option>
+                  <option value="교육">교육</option>
+                  <option value="IT">IT</option>
+                  <option value="기타">기타</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-field">
+              <label>사례 제목 *</label>
+              <input type="text" id="f_title" placeholder="예: 전사 AI 도입 6개월 로드맵" />
+            </div>
+            <div class="form-field">
+              <label>요약 (excerpt, 카드에 노출)</label>
+              <textarea id="f_excerpt" rows="2"></textarea>
+            </div>
+            <div class="form-field">
+              <label>Challenge (고객이 마주한 도전)</label>
+              <textarea id="f_challenge" rows="4"></textarea>
+            </div>
+            <div class="form-field">
+              <label>Approach (ITCL의 접근)</label>
+              <textarea id="f_approach" rows="4"></textarea>
+            </div>
+            <div class="form-field">
+              <label>Result (결과·성과)</label>
+              <textarea id="f_result" rows="4"></textarea>
+            </div>
+            <div class="form-row">
+              <div class="form-field">
+                <label>고객 인용문</label>
+                <textarea id="f_quote_body" rows="3"></textarea>
+              </div>
+              <div class="form-field">
+                <label>인용문 작성자</label>
+                <input type="text" id="f_quote_author" placeholder="예: ○○ 팀장" />
+              </div>
+            </div>
+            <div class="form-field">
+              <label>통계 (JSON 배열: [{v:"96%", l:"만족도"}, ...])</label>
+              <textarea id="f_stats" rows="3" style="font-family:'JetBrains Mono',monospace;font-size:13px;"></textarea>
+            </div>
+            <div class="form-field">
+              <label>태그 (쉼표로 구분)</label>
+              <input type="text" id="f_tags" placeholder="예: C-Level, 6개월, 전사" />
+            </div>
+          </div>
+        </div>
+        <aside>
+          <div class="card">
+            <h2>발행</h2>
+            <div class="form-field checkbox">
+              <input type="checkbox" id="f_published" />
+              <label for="f_published">공개 상태로 발행</label>
+            </div>
+            <div class="btn-group" style="margin-top:14px; flex-direction:column; align-items:stretch;">
+              <button class="btn primary" id="saveBtn">저장</button>
+              <button class="btn secondary" id="backBtn">← 목록으로</button>
+              <button class="btn danger" id="deleteBtn" style="display:none;">삭제</button>
+            </div>
+          </div>
+          <div class="card">
+            <h2>메타</h2>
+            <div class="form-field">
+              <label>Slug (URL용)</label>
+              <input type="text" id="f_slug" placeholder="자동 생성됨" />
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <script src="../../assets/admin.js"></script>
+  <script>
+    (async () => {
+      if (!(await ITCL_checkSession())) return;
+      ITCL_renderShell('cases');
+
+      let editingId = null;
+
+      async function loadList() {
+        try {
+          const { items = [] } = await ITCL_api('/api/admin/cases');
+          const wrap = document.getElementById('listWrap');
+          if (!items.length) {
+            wrap.innerHTML = '<div style="padding:30px;text-align:center;color:var(--muted);">아직 사례가 없습니다.</div>';
+            return;
+          }
+          wrap.innerHTML = `
+            <table class="table">
+              <thead><tr><th>상태</th><th>클라이언트</th><th>제목</th><th>업종</th><th>수정일</th><th></th></tr></thead>
+              <tbody>
+                ${items.map(r => `
+                  <tr>
+                    <td><span class="badge ${r.published ? 'published' : 'draft'}">${r.published ? '게시' : '초안'}</span></td>
+                    <td><strong>${ITCL_esc(r.client)}</strong></td>
+                    <td>${ITCL_esc(r.title)}<br><span style="font-size:12px;color:var(--muted);">/${ITCL_esc(r.slug)}</span></td>
+                    <td style="font-size:12px;color:var(--muted);">${ITCL_esc(r.industry)}</td>
+                    <td style="font-size:12px;color:var(--muted);">${ITCL_fmtDate(r.updated_at || r.created_at)}</td>
+                    <td><button class="btn small secondary" data-edit="${r.id}">편집</button></td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          `;
+          document.querySelectorAll('[data-edit]').forEach(b => {
+            b.addEventListener('click', () => openEditor(b.dataset.edit));
+          });
+        } catch (e) {
+          document.getElementById('listWrap').innerHTML = `<div class="alert error" style="margin:20px;">${ITCL_esc(e.message)}</div>`;
+        }
+      }
+
+      function openEditor(id) {
+        editingId = id || null;
+        document.getElementById('view-list').style.display = 'none';
+        document.getElementById('view-editor').style.display = '';
+        document.getElementById('editorTitle').textContent = id ? '사례 편집' : '새 사례 작성';
+        document.getElementById('deleteBtn').style.display = id ? '' : 'none';
+
+        const fields = ['f_client','f_title','f_slug','f_excerpt','f_challenge','f_approach','f_result','f_quote_body','f_quote_author','f_stats','f_tags'];
+
+        if (id) {
+          ITCL_api('/api/admin/cases', { query: { id } }).then(({ item }) => {
+            document.getElementById('f_client').value = item.client || '';
+            document.getElementById('f_title').value = item.title || '';
+            document.getElementById('f_slug').value = item.slug || '';
+            document.getElementById('f_excerpt').value = item.excerpt || '';
+            document.getElementById('f_challenge').value = item.challenge || '';
+            document.getElementById('f_approach').value = item.approach || '';
+            document.getElementById('f_result').value = item.result || '';
+            document.getElementById('f_quote_body').value = item.quote_body || '';
+            document.getElementById('f_quote_author').value = item.quote_author || '';
+            document.getElementById('f_industry').value = item.industry || '기타';
+            document.getElementById('f_stats').value = item.stats ? JSON.stringify(item.stats, null, 2) : '';
+            document.getElementById('f_tags').value = Array.isArray(item.tags) ? item.tags.join(', ') : '';
+            document.getElementById('f_published').checked = !!item.published;
+          }).catch(e => ITCL_toast(e.message, 'error'));
+        } else {
+          fields.forEach(i => document.getElementById(i).value = '');
+          document.getElementById('f_industry').value = '대기업';
+          document.getElementById('f_published').checked = false;
+        }
+      }
+
+      function closeEditor() {
+        editingId = null;
+        document.getElementById('view-editor').style.display = 'none';
+        document.getElementById('view-list').style.display = '';
+        loadList();
+      }
+
+      document.getElementById('newBtn').addEventListener('click', () => openEditor(null));
+      document.getElementById('backBtn').addEventListener('click', closeEditor);
+
+      document.getElementById('saveBtn').addEventListener('click', async () => {
+        let stats = null;
+        const statsRaw = document.getElementById('f_stats').value.trim();
+        if (statsRaw) {
+          try { stats = JSON.parse(statsRaw); } catch (e) { ITCL_toast('stats JSON 오류: ' + e.message, 'error'); return; }
+        }
+        const tagsRaw = document.getElementById('f_tags').value.trim();
+        const tags = tagsRaw ? tagsRaw.split(',').map(s => s.trim()).filter(Boolean) : null;
+
+        const body = {
+          client: document.getElementById('f_client').value.trim(),
+          title: document.getElementById('f_title').value.trim(),
+          slug: document.getElementById('f_slug').value.trim() || undefined,
+          excerpt: document.getElementById('f_excerpt').value,
+          challenge: document.getElementById('f_challenge').value,
+          approach: document.getElementById('f_approach').value,
+          result: document.getElementById('f_result').value,
+          quote_body: document.getElementById('f_quote_body').value,
+          quote_author: document.getElementById('f_quote_author').value,
+          industry: document.getElementById('f_industry').value,
+          stats,
+          tags,
+          published: document.getElementById('f_published').checked,
+        };
+        if (!body.client || !body.title) { ITCL_toast('클라이언트와 제목은 필수', 'error'); return; }
+
+        try {
+          if (editingId) {
+            await ITCL_api('/api/admin/cases', { method: 'PUT', query: { id: editingId }, body });
+          } else {
+            const res = await ITCL_api('/api/admin/cases', { method: 'POST', body });
+            editingId = res.item.id;
+          }
+          ITCL_toast('저장됨', 'success');
+          setTimeout(closeEditor, 800);
+        } catch (e) {
+          ITCL_toast('저장 실패: ' + e.message, 'error');
+        }
+      });
+
+      document.getElementById('deleteBtn').addEventListener('click', async () => {
+        if (!editingId) return;
+        if (!confirm('정말 삭제하시겠습니까?')) return;
+        try {
+          await ITCL_api('/api/admin/cases', { method: 'DELETE', query: { id: editingId } });
+          ITCL_toast('삭제됨', 'success');
+          closeEditor();
+        } catch (e) { ITCL_toast(e.message, 'error'); }
+      });
+
+      loadList();
+    })();
+  </script>
+</body>
+</html>

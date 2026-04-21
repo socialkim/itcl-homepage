@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>대표강사 · ITCL</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"/>
+<link rel="stylesheet" href="../assets/styles.css"/>
+<style>
+.leader-card{display:grid;grid-template-columns:0.85fr 1.15fr;gap:56px;padding:64px 0;border-bottom:1px solid var(--border);align-items:start}
+.leader-card:last-child{border-bottom:none}
+.leader-card:first-of-type{padding-top:0}
+.leader-visual{position:sticky;top:100px}
+.leader-portrait{aspect-ratio:4/5;background:var(--bg-soft);border-radius:20px;border:1px solid var(--border);position:relative;overflow:hidden}
+.leader-portrait img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2}
+.leader-portrait-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(circle at 70% 30%,rgba(99,91,255,0.08),transparent 60%),repeating-linear-gradient(135deg,transparent,transparent 16px,rgba(10,14,26,0.02) 16px,rgba(10,14,26,0.02) 17px);padding:32px 24px;text-align:center;z-index:1}
+.leader-portrait-ph svg{width:48px;height:48px;margin-bottom:16px;color:var(--accent)}
+.leader-portrait-ph .tag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--accent);text-transform:uppercase;margin-bottom:8px;font-weight:700}
+.leader-portrait-ph .nm{font-size:22px;font-weight:700;letter-spacing:-0.02em;color:var(--ink);margin-bottom:4px}
+.leader-portrait-ph .hint{font-size:11px;color:var(--muted);margin-top:12px;padding:6px 12px;border:1px dashed var(--border);background:rgba(255,255,255,0.6);border-radius:6px;font-family:'JetBrains Mono',monospace}
+.leader-portrait-lbl{position:absolute;bottom:20px;left:20px;right:20px;display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.12em;color:var(--muted);text-transform:uppercase;z-index:3}
+.leader-tag{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.15em;color:var(--accent);text-transform:uppercase;background:rgba(99,91,255,0.08);padding:5px 12px;border-radius:999px;margin-bottom:18px;font-weight:600}
+.leader-name{font-size:44px;font-weight:700;letter-spacing:-0.03em;line-height:1.05;margin-bottom:10px}
+.leader-name em{font-style:normal;background:linear-gradient(110deg,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.leader-role{font-size:15px;color:var(--muted);margin-bottom:28px}
+.leader-bio{font-size:15px;color:var(--ink-mid);line-height:1.75;margin-bottom:20px}
+.leader-bio strong{color:var(--ink);font-weight:600}
+.leader-sections{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:32px}
+.leader-section-card{background:var(--bg-soft);border:1px solid var(--border);border-radius:14px;padding:22px}
+.leader-section-card h5{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.15em;color:var(--accent);text-transform:uppercase;margin-bottom:14px;font-weight:700}
+.leader-section-card ul{list-style:none}
+.leader-section-card li{font-size:13px;color:var(--ink-mid);padding:5px 0;line-height:1.5}
+.leader-section-card li strong{color:var(--ink);font-weight:600}
+.leader-books{margin-top:32px;padding-top:28px;border-top:1px solid var(--border)}
+.leader-books h5{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.18em;color:var(--accent);text-transform:uppercase;margin-bottom:18px;font-weight:700}
+.books-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.book-item{background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px 14px}
+.book-title{font-size:13px;font-weight:600;line-height:1.35;margin-bottom:6px}
+.book-year{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted)}
+@media (max-width:1024px){.leader-card{grid-template-columns:1fr;gap:32px} .leader-visual{position:static} .leader-sections{grid-template-columns:1fr} .leader-name{font-size:34px}}
+</style><!-- SEO ~ auto-injected by _workspace/inject-seo.js ~ -->
+<link rel="canonical" href="https://itcl.kr/pages/leaders.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ITCL · IT커뮤니케이션연구소">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="대표강사 · ITCL">
+<meta property="og:description" content="김덕진 소장, 김아람 대표강사 — ITCL을 이끄는 대표강사들의 전문성과 경력, 강의 분야.">
+<meta property="og:url" content="https://itcl.kr/pages/leaders.html">
+<meta property="og:image" content="https://itcl.kr/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="대표강사 · ITCL">
+<meta name="twitter:description" content="김덕진 소장, 김아람 대표강사 — ITCL을 이끄는 대표강사들의 전문성과 경력, 강의 분야.">
+<meta name="twitter:image" content="https://itcl.kr/assets/og-default.png">
+<meta name="theme-color" content="#635bff">
+<meta name="robots" content="index,follow">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<!-- ~ end SEO block ~ -->
+</head>
+<body>
+<script>window.ITCL_PAGE='leaders';window.ITCL_BASE='..';</script>
+
+<section class="page-hero"><div class="mesh"></div><div class="page-hero-inner">
+  <div class="crumb"><a href="../index.html">Home</a><span class="sep">/</span><span>Leaders</span></div>
+  <h1 class="page-title">연구소를 이끄는<br/><span class="grad">두 사람.</span></h1>
+  <p class="page-lead">ITCL은 두 대표강사를 중심으로 움직입니다. 방송과 강의로 대중에게 AI를 번역해온 김덕진 소장, 그리고 현장 리서치와 워크플로우 설계를 책임지는 김아람 이사.</p>
+</div></section>
+
+<section class="sec">
+  <div class="container">
+    <div class="leader-card">
+      <div class="leader-visual"><div class="leader-portrait">
+        <div class="leader-portrait-ph">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><polyline points="21 15 16 10 5 21"/></svg>
+          <div class="tag">Photo Placeholder</div><div class="nm">김덕진 소장</div>
+          <div class="hint">여기에 프로필 사진 (4:5 권장)</div>
+        </div>
+        <div class="leader-portrait-lbl"><span>Founder &amp; CEO</span><span>01 / 02</span></div>
+      </div></div>
+      <div>
+        <span class="leader-tag">● 대표강사 · Founder</span>
+        <h3 class="leader-name">김덕진 <em>소장</em></h3>
+        <p class="leader-role">IT커뮤니케이터 · ㈜IT커뮤니케이션연구소 소장 · ㈜AI3 최고전략책임자(CSO)</p>
+        <p class="leader-bio">IT커뮤니케이션연구소 소장이며, AI3의 CSO(최고전략책임자)이자 세종사이버대학교 컴퓨터AI공학과 교수입니다. 세종사이버대의 AI 교육운영을 총괄하는 AI교육센터장을 맡고 있으며, 서울시립대학교 경영학부(MIS) 겸임교수로도 활동하고 있습니다. 행정안전부 인공지능정부 기술자문단과 한국수자원공사(K-water) AI First 전략 자문위원단으로도 참여하고 있습니다.</p>
+        <p class="leader-bio">복잡한 IT 기술과 비즈니스 구조를 대중에게 쉽고 재미있게 전달하기 위해 IT커뮤니케이션연구소를 만들었고, 다양한 공중파 뉴스와 라디오 등에서 <strong>15년 이상 전문 패널로 활동</strong>하며 'IT커뮤니케이터'로서의 입지를 다져왔습니다. 최근에는 <strong>피지컬 AI 분야 투자기업의 기술고문</strong>으로 리서치와 전략 수립에 참여하며 AI의 넥스트 패러다임을 연구하고 있습니다.</p>
+        <div class="leader-sections">
+          <div class="leader-section-card"><h5>주요 경력</h5><ul>
+            <li><strong>㈜IT커뮤니케이션연구소</strong> 소장/대표이사</li>
+            <li><strong>㈜AI3</strong> 최고전략책임자 (CSO)</li>
+            <li><strong>세종사이버대학교</strong> 컴퓨터AI공학과 교수</li>
+            <li><strong>서울시립대학교</strong> 경영학부 겸임교수</li>
+            <li><strong>행정안전부</strong> 인공지능정부 기술자문단</li>
+            <li><strong>한국수자원공사</strong> AI First 전략자문위원</li>
+          </ul></div>
+          <div class="leader-section-card"><h5>학력 · 상훈</h5><ul>
+            <li><strong>숭실대학교</strong> 공학박사 수료</li>
+            <li><strong>숭실대학교</strong> IT정책경영학과 석사</li>
+            <li><strong>서울시립대학교</strong> 경영학부 학사</li>
+            <li>농림축산식품부 <strong>디지털혁신 표창</strong></li>
+            <li>방송통신위원회 <strong>공로패</strong></li>
+          </ul></div>
+        </div>
+        <div class="leader-sections">
+          <div class="leader-section-card"><h5>강의 주제</h5><ul>
+            <li>생성형 AI 트렌드 &amp; 인사이트</li>
+            <li>AI 도입 리스크와 거버넌스</li>
+            <li>피지컬 AI · AI 에이전트</li>
+            <li>임원진 대상 AI 전략 특강</li>
+          </ul></div>
+          <div class="leader-section-card"><h5>방송 · 채널</h5><ul>
+            <li><strong>MBC</strong> 손에잡히는경제 (고정)</li>
+            <li><strong>KBS1</strong> 세상의 모든 정보 (고정)</li>
+            <li>TV · 라디오 15년+ 전문 패널</li>
+            <li>유튜브 <strong>김덕진의 AI디아</strong></li>
+          </ul></div>
+        </div>
+        <div class="leader-books"><h5>주요 저서 · 종합 베스트셀러 시리즈</h5>
+          <div class="books-grid">
+            <div class="book-item"><div class="book-title">피지컬 AI 2026</div><div class="book-year">2026 · 최신</div></div>
+            <div class="book-item"><div class="book-title">AI 2026 트렌드&amp;활용백과</div><div class="book-year">2025.10</div></div>
+            <div class="book-item"><div class="book-title">AI 에이전트 트렌드&amp;활용백과</div><div class="book-year">2025.07</div></div>
+            <div class="book-item"><div class="book-title">AI 2025 트렌드&amp;활용백과</div><div class="book-year">2024.11</div></div>
+            <div class="book-item"><div class="book-title">적게 일하고 많이 버는 AI 워커스</div><div class="book-year">2024.08</div></div>
+            <div class="book-item"><div class="book-title">챗봇 2025 트렌드&amp;활용백과</div><div class="book-year">2024.06</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="leader-card">
+      <div class="leader-visual"><div class="leader-portrait">
+        <div class="leader-portrait-ph">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><polyline points="21 15 16 10 5 21"/></svg>
+          <div class="tag">Photo Placeholder</div><div class="nm">김아람 이사</div>
+          <div class="hint">여기에 프로필 사진 (4:5 권장)</div>
+        </div>
+        <div class="leader-portrait-lbl"><span>Director of Research</span><span>02 / 02</span></div>
+      </div></div>
+      <div>
+        <span class="leader-tag">● 대표강사 · Director</span>
+        <h3 class="leader-name">김아람 <em>이사</em></h3>
+        <p class="leader-role">㈜IT커뮤니케이션연구소 연구총괄 · 이사 · IT커뮤니케이터</p>
+        <p class="leader-bio">IT커뮤니케이션연구소 연구총괄 이사이자 <strong>기업 현장의 AI 전환을 이끄는 IT커뮤니케이터</strong>입니다. 동성홀딩스 전략기획실에서 실무경험을 쌓았고, 한국인사이트연구소 책임연구원으로 <strong>8년간 활동하며 CJ·한국국제교류재단·제주관광공사·SK경영경제연구소 등 50여 개 이상의 전략 컨설팅과 빅데이터 분석 프로젝트</strong>를 수행했습니다.</p>
+        <p class="leader-bio">2024년부터 <strong>삼성그룹·SK그룹 임원진과 C-Level(의사결정권자) 대상 AI 리더십 교육</strong>을 진행하며, 한화에어로스페이스·한국수력원자력·삼성화재·볼보그룹코리아 등 주요 기업과 국회의정연수원·농림축산식품부 등 공공기관에서 실무 중심의 생성형 AI 활용 교육을 진행하고 있습니다. 특히 <strong>'워크플로 사고'를 핵심으로 한 단계별 AI 협업 방법론</strong>이 호평받고 있습니다.</p>
+        <div class="leader-sections">
+          <div class="leader-section-card"><h5>주요 경력</h5><ul>
+            <li><strong>㈜IT커뮤니케이션연구소</strong> 연구총괄/이사 (2024.04~)</li>
+            <li><strong>한국인사이트연구소</strong> 책임연구원 (2019~2024)</li>
+            <li><strong>동성홀딩스</strong> 전략기획실 (2009~2015)</li>
+            <li>현대경제연구원 <strong>IT TREND MAGAZINE 정기 기고</strong></li>
+          </ul></div>
+          <div class="leader-section-card"><h5>학력 · 방송</h5><ul>
+            <li><strong>서울시립대학교</strong> 경영학부 학사</li>
+            <li><strong>MBC</strong> 손에잡히는경제 (비정기 패널)</li>
+            <li><strong>KBS1</strong> 세상의 모든 정보 (비정기 패널)</li>
+            <li><strong>채널A</strong> 이야기 더 · <strong>KTV</strong> 글로벌 인사이트</li>
+          </ul></div>
+        </div>
+        <div class="leader-sections">
+          <div class="leader-section-card"><h5>핵심 강의 분야</h5><ul>
+            <li>C-Level · 임원진 AI 리더십 교육</li>
+            <li>워크플로 사고 기반 AI 협업 방법론</li>
+            <li>AI 활용 보고서 작성 · 리서치 자동화</li>
+            <li>브랜드 · 마케팅 AI 활용 전략</li>
+          </ul></div>
+          <div class="leader-section-card"><h5>주요 출강 기관</h5><ul>
+            <li><strong>대기업</strong> 삼성 · SK · 한화에어로스페이스</li>
+            <li><strong>금융 · 제조</strong> 삼성화재 · 한수원 · 볼보</li>
+            <li><strong>공공기관</strong> 국회의정연수원 · 농림축산식품부</li>
+            <li><strong>컨설팅</strong> CJ · 한국국제교류재단 외 50+</li>
+          </ul></div>
+        </div>
+        <div class="leader-books"><h5>주요 저서 · 온라인 강의</h5>
+          <div class="books-grid">
+            <div class="book-item"><div class="book-title">AI 워커스: 리디자인</div><div class="book-year">2026.03</div></div>
+            <div class="book-item"><div class="book-title">AI 에이전트 트렌드&amp;활용백과</div><div class="book-year">2025.07</div></div>
+            <div class="book-item"><div class="book-title">적게 일하고 많이 버는 AI 워커스</div><div class="book-year">2024.08</div></div>
+            <div class="book-item"><div class="book-title">티타임즈 AI 워크플로우 혁신</div><div class="book-year">2026.02</div></div>
+            <div class="book-item"><div class="book-title">휴넷 직장인 생성형 AI 활용법</div><div class="book-year">2024.11</div></div>
+            <div class="book-item"><div class="book-title">삼성전자 인재개발원 AI 도구</div><div class="book-year">2024.06</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="../assets/layout.js"></script>
+</body></html>

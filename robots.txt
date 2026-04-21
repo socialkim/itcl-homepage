@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /pages/admin/
+Disallow: /pages/admin
+Disallow: /api/admin/
+Disallow: /api/contact
+Disallow: /_workspace/
+
+Sitemap: https://itcl.kr/sitemap.xml

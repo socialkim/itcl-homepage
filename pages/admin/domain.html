@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>도메인 · 배포 · ITCL 관리자</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/styles.css" />
+  <link rel="stylesheet" href="../../assets/admin.css" />
+  <script>window.ITCL_ADMIN_BASE='..';</script>
+</head>
+<body>
+  <main class="admin-main">
+    <h1 class="page-h1">도메인 · 배포 상태</h1>
+    <p class="page-sub">현재 홈페이지가 어떻게 연결되어 운영되고 있는지 확인합니다.</p>
+
+    <div class="card">
+      <h2>현재 배포 주소</h2>
+      <div class="form-field">
+        <label>현재 URL</label>
+        <div id="currentUrl" style="padding:12px 14px;background:var(--bg-soft);border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:13px;"></div>
+        <div class="hint">Vercel 배포마다 해시 URL이 바뀝니다. 공식 도메인 연결 전까지 이 주소를 사용합니다.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>커스텀 도메인 연결</h2>
+      <div class="alert info">
+        💡 도메인은 <code>itcl.kr</code>을 쓰거나, 새로 구매하거나, Vercel 무료 서브도메인을 쓸 수 있습니다.
+        현재 <code>itcl.kr</code>은 호스팅.kr에서 DNS 관리 중이고 Google Workspace 이메일에 연결되어 있습니다.
+      </div>
+      <div class="desc">
+        <strong>연결 절차 (덕진님 소장 요청 시 진행):</strong>
+        <ol style="margin-top:10px; padding-left:20px; line-height:1.8;">
+          <li>Vercel Dashboard → Project Settings → Domains → Add</li>
+          <li>호스팅.kr DNS에 A 또는 CNAME 레코드 추가</li>
+          <li>현재 <code>itcl.kr</code>에 설정된 litt.ly/kimdukjin 포워딩 해제 필요</li>
+          <li>SSL 자동 프로비저닝 대기 (~15분)</li>
+          <li>api/contact.js의 <code>SITE_URL</code> 상수 업데이트</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>인프라 구성</h2>
+      <table class="table">
+        <thead><tr><th>구성 요소</th><th>제공자</th><th>상태</th></tr></thead>
+        <tbody>
+          <tr><td>웹 호스팅</td><td>Vercel</td><td><span class="badge published">활성</span></td></tr>
+          <tr><td>데이터베이스 (문의·콘텐츠)</td><td>Supabase</td><td><span class="badge published">활성</span></td></tr>
+          <tr><td>이메일 발송</td><td>Resend (itcl.kr 도메인 인증)</td><td><span class="badge published">활성</span></td></tr>
+          <tr><td>도메인·DNS</td><td>호스팅.kr</td><td><span class="badge draft">도메인 연결 대기</span></td></tr>
+          <tr><td>이메일 수신</td><td>Google Workspace</td><td><span class="badge published">활성</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>주요 외부 링크</h2>
+      <div class="btn-group" style="flex-direction:column; align-items:stretch;">
+        <a class="btn secondary" target="_blank" href="https://vercel.com/socialkim0211-3722s-projects/itcl">Vercel 프로젝트 대시보드 ↗</a>
+        <a class="btn secondary" target="_blank" href="https://supabase.com/dashboard/project/sxvhyrubjzqebmpeeqws">Supabase 프로젝트 ↗</a>
+        <a class="btn secondary" target="_blank" href="https://resend.com/domains">Resend 도메인 관리 ↗</a>
+        <a class="btn secondary" target="_blank" href="https://www.hosting.kr/">호스팅.kr 로그인 ↗</a>
+        <a class="btn secondary" target="_blank" href="https://admin.google.com/">Google Workspace 관리 ↗</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="../../assets/admin.js"></script>
+  <script>
+    (async () => {
+      if (!(await ITCL_checkSession())) return;
+      ITCL_renderShell('domain');
+      document.getElementById('currentUrl').textContent = location.origin;
+    })();
+  </script>
+</body>
+</html>

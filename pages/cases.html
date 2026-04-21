@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Cases · ITCL</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"/>
+<link rel="stylesheet" href="../assets/styles.css"/>
+<style>
+.filter-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--border)}
+.filter-chip{padding:8px 16px;border:1px solid var(--border);background:#fff;border-radius:999px;font-size:13px;font-weight:500;color:var(--ink-soft);cursor:pointer}
+.filter-chip.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+.cases-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.case-card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:28px;transition:all 0.25s;display:block}
+.case-card:hover{transform:translateY(-3px);box-shadow:0 16px 32px -18px rgba(10,14,26,0.15);border-color:var(--accent)}
+.case-meta-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px}
+.case-client{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.12em;color:var(--accent);text-transform:uppercase;font-weight:700}
+.case-industry{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted-2);letter-spacing:0.08em;text-transform:uppercase}
+.case-title{font-size:22px;font-weight:700;letter-spacing:-0.02em;line-height:1.3;margin-bottom:14px;color:var(--ink)}
+.case-exc{font-size:14px;color:var(--ink-mid);line-height:1.65;margin-bottom:24px}
+.case-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:0;padding-top:20px;border-top:1px solid var(--border-2)}
+.case-stat{text-align:left}
+.case-stat .v{font-size:22px;font-weight:700;color:var(--accent);letter-spacing:-0.02em;line-height:1;margin-bottom:4px}
+.case-stat .l{font-size:11px;color:var(--muted);letter-spacing:0.02em}
+.case-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px}
+.case-tag{font-size:11px;color:var(--ink-mid);background:var(--bg-soft);padding:4px 10px;border-radius:6px;font-weight:500}
+@media (max-width:860px){.cases-grid{grid-template-columns:1fr}}
+</style><!-- SEO ~ auto-injected by _workspace/inject-seo.js ~ -->
+<link rel="canonical" href="https://itcl.kr/pages/cases.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ITCL · IT커뮤니케이션연구소">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="Cases · ITCL">
+<meta property="og:description" content="ITCL이 실제 수행한 기업 AI 교육 사례들. 도전과제, 접근방식, 결과까지 공개.">
+<meta property="og:url" content="https://itcl.kr/pages/cases.html">
+<meta property="og:image" content="https://itcl.kr/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Cases · ITCL">
+<meta name="twitter:description" content="ITCL이 실제 수행한 기업 AI 교육 사례들. 도전과제, 접근방식, 결과까지 공개.">
+<meta name="twitter:image" content="https://itcl.kr/assets/og-default.png">
+<meta name="theme-color" content="#635bff">
+<meta name="robots" content="index,follow">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<!-- ~ end SEO block ~ -->
+</head>
+<body>
+<script>window.ITCL_PAGE='cases';window.ITCL_BASE='..';</script>
+
+<section class="page-hero"><div class="mesh"></div><div class="page-hero-inner">
+  <div class="crumb"><a href="../index.html">Home</a><span class="sep">/</span><span>Cases</span></div>
+  <h1 class="page-title">교육이 만든<br/><span class="grad">현장의 변화들.</span></h1>
+  <p class="page-lead">대기업 임원 교육부터 공공기관 전 직원 대상 프로그램까지 — 실제 고객의 이야기로 ITCL 교육의 효과를 확인하세요.</p>
+</div></section>
+
+<section class="sec">
+  <div class="container">
+    <div class="filter-bar">
+      <button class="filter-chip active" data-f="all">전체</button>
+      <button class="filter-chip" data-f="대기업">대기업</button>
+      <button class="filter-chip" data-f="금융">금융</button>
+      <button class="filter-chip" data-f="공공">공공기관</button>
+      <button class="filter-chip" data-f="제조">제조·에너지</button>
+      <button class="filter-chip" data-f="교육">교육·연구</button>
+    </div>
+    <div class="cases-grid" id="grid"></div>
+  </div>
+</section>
+
+<script>
+const cases=[
+  {id:'samsung-cxo',client:'S그룹',industry:'대기업',t:'C-Level 전원 대상 AI 리더십 프로그램',e:'30명 이상 임원을 대상으로 한 8시간 집중 프로그램. 워크플로 사고를 기반으로 의사결정·보고·리서치 전 과정에서 AI를 활용하는 방법을 체화.',tags:['C-Level','리더십','8시간','반복 재의뢰'],stats:[{v:'96%',l:'만족도'},{v:'4회',l:'재의뢰'},{v:'120+',l:'누적 참여'}]},
+  {id:'sk-exec',client:'SK그룹',industry:'대기업',t:'주요 계열사 임원진 AI 전략 특강 시리즈',e:'여러 계열사에 걸쳐 진행된 시리즈 특강. 산업별·직무별 맞춤 콘텐츠로 재구성해 실행 가능한 인사이트 중심으로 설계.',tags:['임원진','시리즈','산업별 커스텀'],stats:[{v:'12회',l:'진행 횟수'},{v:'95%',l:'만족도'},{v:'200+',l:'참여 임원'}]},
+  {id:'kepco',client:'한국수력원자력',industry:'공공',t:'전 직원 대상 AI 리터러시 커리큘럼',e:'발전·안전·관리 직군별로 다른 니즈를 반영한 3단계 커리큘럼. 실습 중심으로 현업 적용 도구를 바로 가져갈 수 있게 설계.',tags:['전 직원','공공','3단계 커리큘럼'],stats:[{v:'800+',l:'교육 이수'},{v:'92%',l:'현업 적용'},{v:'3단계',l:'레벨'}]},
+  {id:'hanwha',client:'한화에어로스페이스',industry:'제조',t:'엔지니어 대상 AI 리서치 · 보고 자동화 교육',e:'방산·항공우주 분야 엔지니어들이 반복하는 리서치와 기술 문서 작성 프로세스에 생성형 AI를 결합하는 실습 프로그램.',tags:['엔지니어','리서치 자동화','보고서'],stats:[{v:'6시간',l:'단축/주'},{v:'150+',l:'참여 인원'},{v:'94%',l:'만족도'}]},
+  {id:'samsung-fire',client:'삼성화재',industry:'금융',t:'영업·언더라이팅 팀 AI 보고서 실습',e:'보험 상품 기획과 언더라이팅 프로세스에서 활용할 수 있는 AI 리서치·보고서 작성 실습 중심 교육.',tags:['금융','언더라이팅','실습형'],stats:[{v:'4회',l:'반복 의뢰'},{v:'97%',l:'만족도'},{v:'80+',l:'누적 참여'}]},
+  {id:'volvo',client:'볼보그룹코리아',industry:'제조',t:'리더십팀 대상 AI 의사결정 워크숍',e:'상용차·건설기계 사업 리더들을 대상으로 전략 수립과 의사결정에 AI를 어떻게 결합할지 설계한 워크숍.',tags:['리더십','워크숍','다국적 기업'],stats:[{v:'40명',l:'리더 참여'},{v:'93%',l:'만족도'},{v:'2일',l:'워크숍'}]},
+  {id:'moagri',client:'농림축산식품부',industry:'공공',t:'부처 단위 AI 활용 · 디지털혁신 프로그램',e:'정책 담당자들을 위한 AI 리터러시와 정책 업무에서의 생성형 AI 활용법. 표창으로 이어진 대표 레퍼런스.',tags:['공공','정책','표창'],stats:[{v:'표창',l:'수상'},{v:'95%',l:'만족도'},{v:'300+',l:'공무원 참여'}]},
+  {id:'nat-assembly',client:'국회의정연수원',industry:'공공',t:'국회 및 의정 관계자 AI 교육 시리즈',e:'국정·의정 업무 담당자들을 위한 특화 커리큘럼. 민감 정보 처리와 AI 활용의 균형을 핵심으로 한 교육.',tags:['공공','거버넌스','민감 정보'],stats:[{v:'5회',l:'시리즈'},{v:'90%',l:'만족도'},{v:'150+',l:'참여'}]},
+  {id:'sejong',client:'세종사이버대학교',industry:'교육',t:'AI 교육센터 커리큘럼 설계 자문',e:'대학의 AI 교육센터 설립과 전 학부 AI 교양·전공 커리큘럼 설계를 주도. 현재도 운영에 깊이 관여 중.',tags:['대학','커리큘럼 설계','장기 파트너십'],stats:[{v:'2년+',l:'파트너십'},{v:'전 학부',l:'적용'},{v:'AI 센터',l:'설립'}]}
+];
+const grid=document.getElementById('grid');
+function render(f){
+  const filtered=f==='all'?cases:cases.filter(c=>c.industry===f);
+  grid.innerHTML=filtered.map(c=>`
+    <a class="case-card" href="cases-detail.html?id=${c.id}">
+      <div class="case-meta-top"><span class="case-client">${c.client}</span><span class="case-industry">${c.industry}</span></div>
+      <h3 class="case-title">${c.t}</h3>
+      <p class="case-exc">${c.e}</p>
+      <div class="case-tags">${c.tags.map(t=>`<span class="case-tag">${t}</span>`).join('')}</div>
+      <div class="case-stats">${c.stats.map(s=>`<div class="case-stat"><div class="v">${s.v}</div><div class="l">${s.l}</div></div>`).join('')}</div>
+    </a>`).join('');
+}
+render('all');
+document.querySelectorAll('.filter-chip').forEach(c=>c.addEventListener('click',()=>{
+  document.querySelectorAll('.filter-chip').forEach(x=>x.classList.remove('active'));
+  c.classList.add('active');render(c.dataset.f);
+}));
+</script>
+<script src="../assets/layout.js"></script>
+</body></html>

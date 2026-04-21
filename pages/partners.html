@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>교육 파트너 · ITCL</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"/>
+<link rel="stylesheet" href="../assets/styles.css"/>
+<style>
+.partners-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.partner-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:22px;transition:all 0.25s;min-height:220px;display:flex;flex-direction:column;justify-content:space-between}
+.partner-card:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 16px 32px -16px rgba(99,91,255,0.2)}
+.partner-num{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:16px;letter-spacing:0.1em;font-weight:600}
+.partner-name{font-size:20px;font-weight:700;letter-spacing:-0.02em;margin-bottom:6px}
+.partner-title{font-size:12px;color:var(--accent);margin-bottom:14px;font-weight:600;line-height:1.4}
+.partner-spec{font-size:12px;color:var(--ink-mid);line-height:1.55;padding-top:12px;border-top:1px solid var(--border-2);margin-top:auto}
+@media (max-width:1024px){.partners-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.partners-grid{grid-template-columns:1fr}}
+</style><!-- SEO ~ auto-injected by _workspace/inject-seo.js ~ -->
+<link rel="canonical" href="https://itcl.kr/pages/partners.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ITCL · IT커뮤니케이션연구소">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="교육 파트너 · ITCL">
+<meta property="og:description" content="주제·규모·청중에 맞춰 매칭하는 ITCL 파트너 강사진 16명. 검증된 현장 경력의 AI 전문가.">
+<meta property="og:url" content="https://itcl.kr/pages/partners.html">
+<meta property="og:image" content="https://itcl.kr/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="교육 파트너 · ITCL">
+<meta name="twitter:description" content="주제·규모·청중에 맞춰 매칭하는 ITCL 파트너 강사진 16명. 검증된 현장 경력의 AI 전문가.">
+<meta name="twitter:image" content="https://itcl.kr/assets/og-default.png">
+<meta name="theme-color" content="#635bff">
+<meta name="robots" content="index,follow">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<!-- ~ end SEO block ~ -->
+</head>
+<body>
+<script>window.ITCL_PAGE='partners';window.ITCL_BASE='..';</script>
+
+<section class="page-hero"><div class="mesh"></div><div class="page-hero-inner">
+  <div class="crumb"><a href="../index.html">Home</a><span class="sep">/</span><span>Partners</span></div>
+  <h1 class="page-title">각 분야 최고의<br/><span class="grad">전문가 그룹.</span></h1>
+  <p class="page-lead">대표강사 두 명을 중심으로, 주제별·직무별로 검증된 16명의 전문 강사진이 ITCL의 교육 파트너로 함께합니다. 프롬프트 엔지니어링부터 조직개발까지 기업의 모든 AI 니즈를 커버합니다.</p>
+</div></section>
+
+<section class="sec">
+  <div class="container">
+    <div class="partners-grid" id="partnersGrid"></div>
+  </div>
+</section>
+
+<section class="sec" style="background:var(--bg-soft);text-align:center">
+  <div class="container">
+    <h2 class="sec-title" style="margin:0 auto 16px">필요한 주제에 맞는 강사를<br/><span class="grad">맞춤 매칭해드립니다.</span></h2>
+    <p class="sec-lead" style="margin:0 auto 32px">원하시는 교육 주제·대상·산업을 말씀해주시면, 가장 적합한 강사를 큐레이션해드립니다.</p>
+    <a href="contact.html" class="btn-primary">강사 매칭 문의 →</a>
+  </div>
+</section>
+
+<script>
+const partners=[
+  {n:'서승완',t:'유메타랩 대표 · 프롬프트 엔지니어',s:"국내 최초 프롬프트 공유 DB 'GPTable' 개발. 세종사이버대 겸임교수. 삼성·SK·LG·KB 출강. 『프롬프트 엔지니어링 교과서』 저자."},
+  {n:'김정수',t:'린스프린트 대표 · 스타트업 컨설턴트',s:'더인벤션랩 파트너. 현대차·삼성생명·신세계 사내 벤처 교육. BM·IR·린스타트업 15년+. 한국코치협회 KAC.'},
+  {n:'이보라',t:'모던웹연구소 대표 · MS MVP',s:'바이브코딩·GitHub Copilot 전문. 서강대 미래교육원 겸임교수. Lovable 앰배서더. MS·메가존·한국타이어 출강.'},
+  {n:'유호석',t:'PB와 함께하는 AI투자전략 저자',s:'증권·자산운용 업계 25년+. 금융 AI 투자 전략 전문. 대형 금융기관 임원 대상 AI 교육 다수. PB교육 전문가.'},
+  {n:'김상중',t:'AI 콘텐츠 크리에이터 · 강사',s:'숏폼 AI 영상 제작·Midjourney·Sora 등 이미지·영상 생성 AI 전문. 대기업 크리에이티브팀 교육 이력. 유튜브 크리에이터.'},
+  {n:'강두환',t:'AX 컨설턴트 · 조직 AI 도입 전문',s:'기업 AX(AI Transformation) 컨설팅 전문. 조직 프로세스 분석과 AI 이식 설계. 대기업 사내 AX 아카데미 운영 이력.'},
+  {n:'박상욱',t:'HR AI 활용 전문가 · 조직개발',s:'HR 영역 생성형 AI 활용·채용 자동화·구성원 역량평가 AI 도입 전문. 대기업 HR팀 대상 출강 다수. 조직개발 10년+.'},
+  {n:'이지은',t:'마케팅 AI 전략 · 브랜드 컨설턴트',s:'브랜드 전략·퍼포먼스 마케팅 AI 접목 실전 강의. 롯데·CJ·신세계 마케팅팀 출강. AEO·Loop Marketing.'},
+  {n:'정하민',t:'데이터 사이언티스트 · 통계 AI',s:'데이터 분석·ML/DL 실무 10년+. 대기업 데이터팀 AI 활용 교육. Python·R·SQL 기반 생산성 도구 통합 교육.'},
+  {n:'안수민',t:'AI 법무·거버넌스 컨설턴트',s:'EU AI Act·국내 AI 규제·생성형 AI 리스크 대응 전문. 대기업 법무·컴플라이언스 대상 강의. 로펌 협업 다수.'},
+  {n:'정윤경',t:'교육 설계자 · 인재개발 컨설턴트',s:'기업 맞춤 커리큘럼 설계·온보딩 AI 활용·러닝디자인 전문. 대기업 HRD팀 대상 AI 활용 교육설계 방법론 강의.'},
+  {n:'서광민',t:'㈜루키스 이사 · 고려대 E-비즈니스 박사과정',s:'AI 영상제작·NFT 전문. SK이노베이션·BH엔터테인먼트·GS리테일 강의. 『AI로 하루 만에 영상 만들기』 저자.'},
+  {n:'채시은',t:'유메타랩 책임매니저 · 영남대 석사과정',s:'GPTable 운영진. LG전자·호반·풀무원·두산·SK아카데미·메트라이프·롯데 GRS 생성형 AI 강의. 프롬프트 엔지니어링.'},
+  {n:'송아영',t:'충북대 과학기술진흥센터 연구원',s:'Vanderbilt University 프롬프트 엔지니어링 수료. 지피터스 파트너. 한솔제지·경기도청 강의. AI 리터러시 전문.'},
+  {n:'전시진',t:'시리얼 대표 · Notion Certified Consultant',s:'GS·SKT·LG경영연구원·네이버·롯데·삼성화재·교보문고 강의. 『업무와 일상을 정리하는 새로운 방법 Notion』 저자.'},
+  {n:'황한솔',t:'성균관대 응용AI융합학부 조교수 · 경영학 박사',s:'홍익대 디자인경영융합학부 초빙교수 前. 삼성물산 상사부문 前. 리더십·조직행동·커뮤니케이션 전문.'}
+];
+document.getElementById('partnersGrid').innerHTML=partners.map((p,i)=>`
+  <div class="partner-card"><div>
+    <div class="partner-num">P.${String(i+1).padStart(2,'0')}</div>
+    <div class="partner-name">${p.n}</div>
+    <div class="partner-title">${p.t}</div>
+  </div><div class="partner-spec">${p.s}</div></div>`).join('');
+</script>
+<script src="../assets/layout.js"></script>
+</body></html>

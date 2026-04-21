@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Resources · ITCL</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"/>
+<link rel="stylesheet" href="../assets/styles.css"/>
+<style>
+.tabs{display:flex;gap:4px;margin-bottom:40px;border-bottom:1px solid var(--border)}
+.tab-btn{padding:14px 24px;background:none;border:none;font-size:15px;font-weight:600;color:var(--muted);cursor:pointer;position:relative;letter-spacing:-0.01em}
+.tab-btn.active{color:var(--accent)}
+.tab-btn.active::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:var(--accent)}
+.tab-btn .count{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted-2);margin-left:8px;font-weight:500}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+
+.books-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.book-card{background:#fff;border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all 0.25s;display:flex;flex-direction:column}
+.book-card:hover{transform:translateY(-4px);box-shadow:0 20px 40px -20px rgba(10,14,26,0.15);border-color:var(--accent)}
+.book-cover{aspect-ratio:3/4;background:linear-gradient(135deg,var(--accent) 0%,var(--accent-deep) 100%);position:relative;display:flex;flex-direction:column;justify-content:space-between;padding:20px;color:#fff;overflow:hidden}
+.book-cover.c2{background:linear-gradient(135deg,#1a1f3a 0%,#2e3b6f 100%)}
+.book-cover.c3{background:linear-gradient(135deg,#00d4b4 0%,#007d6e 100%)}
+.book-cover.c4{background:linear-gradient(135deg,#ff7d5c 0%,#d9523a 100%)}
+.book-cover.c5{background:linear-gradient(135deg,#635bff 0%,#b084ff 100%)}
+.book-cover.c6{background:linear-gradient(135deg,#2e3140 0%,#0a0e1a 100%)}
+.book-cover::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 20%,rgba(255,255,255,0.15),transparent 60%);pointer-events:none}
+.book-cover-top{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;opacity:0.75;font-weight:600;position:relative;z-index:1}
+.book-cover-title{font-size:17px;font-weight:700;line-height:1.2;letter-spacing:-0.015em;position:relative;z-index:1}
+.book-cover-author{font-size:11px;opacity:0.8;margin-top:8px;font-weight:500}
+.book-info{padding:18px 16px}
+.book-info-date{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--accent);font-weight:700;letter-spacing:0.1em;margin-bottom:8px}
+.book-info-title{font-size:14px;font-weight:700;letter-spacing:-0.015em;line-height:1.35;margin-bottom:6px;color:var(--ink)}
+.book-info-auth{font-size:12px;color:var(--muted)}
+.badge-new{position:absolute;top:12px;right:12px;background:var(--accent-3);color:#fff;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;padding:3px 8px;border-radius:999px;letter-spacing:0.1em;text-transform:uppercase;z-index:2}
+
+.media-list{display:flex;flex-direction:column;gap:12px}
+.media-item{background:#fff;border:1px solid var(--border);border-radius:14px;padding:22px 26px;display:grid;grid-template-columns:72px 1fr auto;gap:20px;align-items:center;transition:all 0.2s}
+.media-item:hover{border-color:var(--accent);transform:translateX(4px)}
+.media-thumb{aspect-ratio:1;background:var(--bg-soft);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--muted-2)}
+.media-thumb.tv{background:linear-gradient(135deg,rgba(99,91,255,0.15),rgba(99,91,255,0.05));color:var(--accent)}
+.media-thumb.yt{background:linear-gradient(135deg,rgba(255,0,0,0.12),rgba(255,0,0,0.04));color:#ff0033}
+.media-thumb.rd{background:linear-gradient(135deg,rgba(0,212,180,0.12),rgba(0,212,180,0.04));color:var(--accent-2)}
+.media-thumb.pc{background:linear-gradient(135deg,rgba(255,125,92,0.12),rgba(255,125,92,0.04));color:var(--accent-3)}
+.media-thumb svg{width:28px;height:28px}
+.media-meta{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.12em;color:var(--accent);text-transform:uppercase;font-weight:700;margin-bottom:6px}
+.media-title{font-size:17px;font-weight:700;letter-spacing:-0.015em;line-height:1.3;margin-bottom:4px}
+.media-desc{font-size:13px;color:var(--muted)}
+.media-link{color:var(--muted);transition:all 0.15s}
+.media-link:hover{color:var(--accent)}
+
+@media (max-width:1024px){.books-grid{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:760px){.books-grid{grid-template-columns:repeat(2,1fr)} .media-item{grid-template-columns:56px 1fr}}
+</style><!-- SEO ~ auto-injected by _workspace/inject-seo.js ~ -->
+<link rel="canonical" href="https://itcl.kr/pages/resources.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ITCL · IT커뮤니케이션연구소">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="Resources · ITCL">
+<meta property="og:description" content="AI 2024, AI 2025, AI 2026 저서 · KBS·MBC 방송 출연 · 강의 자료. ITCL의 AI 커뮤니케이션 자산.">
+<meta property="og:url" content="https://itcl.kr/pages/resources.html">
+<meta property="og:image" content="https://itcl.kr/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Resources · ITCL">
+<meta name="twitter:description" content="AI 2024, AI 2025, AI 2026 저서 · KBS·MBC 방송 출연 · 강의 자료. ITCL의 AI 커뮤니케이션 자산.">
+<meta name="twitter:image" content="https://itcl.kr/assets/og-default.png">
+<meta name="theme-color" content="#635bff">
+<meta name="robots" content="index,follow">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<!-- ~ end SEO block ~ -->
+</head>
+<body>
+<script>window.ITCL_PAGE='resources';window.ITCL_BASE='..';</script>
+
+<section class="page-hero"><div class="mesh"></div><div class="page-hero-inner">
+  <div class="crumb"><a href="../index.html">Home</a><span class="sep">/</span><span>Resources</span></div>
+  <h1 class="page-title">저서 · 강의 · 미디어로<br/><span class="grad">확산되는 콘텐츠.</span></h1>
+  <p class="page-lead">ITCL의 연구 결과는 베스트셀러 시리즈와 방송, 유튜브로 확장되어 대중에게 닿습니다. 모두 한 곳에서 확인하세요.</p>
+</div></section>
+
+<section class="sec">
+  <div class="container">
+    <div class="tabs">
+      <button class="tab-btn active" data-t="books">저서 <span class="count">12</span></button>
+      <button class="tab-btn" data-t="courses">온라인 강의 <span class="count">6</span></button>
+      <button class="tab-btn" data-t="media">방송 · 미디어 <span class="count">10</span></button>
+    </div>
+
+    <div class="tab-pane active" id="pane-books">
+      <div class="books-grid">
+        <div class="book-card"><div class="book-cover c1"><span class="badge-new">New</span><div class="book-cover-top">Best · 2026</div><div><div class="book-cover-title">피지컬 AI 2026</div><div class="book-cover-author">김덕진 외</div></div></div><div class="book-info"><div class="book-info-date">2026</div><div class="book-info-title">피지컬 AI 2026</div><div class="book-info-auth">김덕진 소장 외</div></div></div>
+        <div class="book-card"><div class="book-cover c2"><span class="badge-new">New</span><div class="book-cover-top">종합 베스트</div><div><div class="book-cover-title">AI 워커스: 리디자인</div><div class="book-cover-author">김아람 외</div></div></div><div class="book-info"><div class="book-info-date">2026.03</div><div class="book-info-title">AI 워커스: 리디자인</div><div class="book-info-auth">김아람 이사 외</div></div></div>
+        <div class="book-card"><div class="book-cover c3"><div class="book-cover-top">Best · 2025</div><div><div class="book-cover-title">AI 2026 트렌드 &amp; 활용백과</div><div class="book-cover-author">김덕진 외</div></div></div><div class="book-info"><div class="book-info-date">2025.10</div><div class="book-info-title">AI 2026 트렌드 &amp; 활용백과</div><div class="book-info-auth">김덕진 소장 외</div></div></div>
+        <div class="book-card"><div class="book-cover c4"><div class="book-cover-top">Best · 2025</div><div><div class="book-cover-title">AI 에이전트 트렌드 &amp; 활용백과</div><div class="book-cover-author">김덕진·김아람 외</div></div></div><div class="book-info"><div class="book-info-date">2025.07</div><div class="book-info-title">AI 에이전트 트렌드 &amp; 활용백과</div><div class="book-info-auth">김덕진·김아람 외</div></div></div>
+        <div class="book-card"><div class="book-cover c5"><div class="book-cover-top">Best · 2024</div><div><div class="book-cover-title">AI 2025 트렌드 &amp; 활용백과</div><div class="book-cover-author">김덕진 외</div></div></div><div class="book-info"><div class="book-info-date">2024.11</div><div class="book-info-title">AI 2025 트렌드 &amp; 활용백과</div><div class="book-info-auth">김덕진 소장 외</div></div></div>
+        <div class="book-card"><div class="book-cover c6"><div class="book-cover-top">Best · 2024</div><div><div class="book-cover-title">적게 일하고 많이 버는 AI 워커스</div><div class="book-cover-author">김덕진·김아람</div></div></div><div class="book-info"><div class="book-info-date">2024.08</div><div class="book-info-title">적게 일하고 많이 버는 AI 워커스</div><div class="book-info-auth">김덕진·김아람</div></div></div>
+        <div class="book-card"><div class="book-cover c1"><div class="book-cover-top">Series</div><div><div class="book-cover-title">챗봇 2025 트렌드 &amp; 활용백과</div><div class="book-cover-author">김덕진 외</div></div></div><div class="book-info"><div class="book-info-date">2024.06</div><div class="book-info-title">챗봇 2025 트렌드 &amp; 활용백과</div><div class="book-info-auth">김덕진 소장 외</div></div></div>
+        <div class="book-card"><div class="book-cover c2"><div class="book-cover-top">공동저서</div><div><div class="book-cover-title">질문지능: 묻지 않는 사람에겐 답도 없다</div><div class="book-cover-author">공저</div></div></div><div class="book-info"><div class="book-info-date">2024</div><div class="book-info-title">질문지능</div><div class="book-info-auth">공동 저서</div></div></div>
+        <div class="book-card"><div class="book-cover c3"><div class="book-cover-top">공동저서</div><div><div class="book-cover-title">트렌드 인 비즈니스 2025</div><div class="book-cover-author">공저</div></div></div><div class="book-info"><div class="book-info-date">2024</div><div class="book-info-title">트렌드 인 비즈니스 2025</div><div class="book-info-auth">공동 저서</div></div></div>
+        <div class="book-card"><div class="book-cover c4"><div class="book-cover-top">공동저서</div><div><div class="book-cover-title">AI 빅뱅: 생성 인공지능과 인문학 르네상스</div><div class="book-cover-author">공저</div></div></div><div class="book-info"><div class="book-info-date">2023</div><div class="book-info-title">AI 빅뱅</div><div class="book-info-auth">공동 저서</div></div></div>
+        <div class="book-card"><div class="book-cover c5"><div class="book-cover-top">공동저서</div><div><div class="book-cover-title">새로운 미래가 온다</div><div class="book-cover-author">공저</div></div></div><div class="book-info"><div class="book-info-date">2023</div><div class="book-info-title">새로운 미래가 온다</div><div class="book-info-auth">공동 저서</div></div></div>
+        <div class="book-card"><div class="book-cover c6"><div class="book-cover-top">공동저서</div><div><div class="book-cover-title">변화하는 세계 질서와 디지털 전환</div><div class="book-cover-author">공저</div></div></div><div class="book-info"><div class="book-info-date">2023</div><div class="book-info-title">변화하는 세계 질서와 디지털 전환</div><div class="book-info-auth">공동 저서</div></div></div>
+      </div>
+    </div>
+
+    <div class="tab-pane" id="pane-courses">
+      <div class="media-list">
+        <div class="media-item"><div class="media-thumb rd"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg></div><div><div class="media-meta">티타임즈 · 2026.02</div><div class="media-title">AI 워크플로우 혁신 — 실전 가이드</div><div class="media-desc">김아람 이사 · 실무자용 생성형 AI 워크플로 설계 강의</div></div><a href="#" class="media-link"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a></div>
+        <div class="media-item"><div class="media-thumb rd"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg></div><div><div class="media-meta">휴넷 · 2024.11</div><div class="media-title">직장인을 위한 생성형 AI 활용법</div><div class="media-desc">김아람 이사 · 직장인 대상 필수 AI 도구 활용 강의</div></div><a href="#" class="media-link"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a></div>
+        <div class="media-item"><div class="media-thumb rd"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg></div><div><div class="media-meta">삼성전자 인재개발원 · 2024.06</div><div class="media-title">임직원용 생성형 AI 도구 활용 강의</div><div class="media-desc">김아람 이사 · 삼성 임직원 사내 교육 공식 콘텐츠</div></div><a href="#" class="media-link"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a></div>
+        <div class="media-item"><div class="media-thumb rd"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg></div><div><div class="media-meta">세종사이버대학교 · 2024~</div><div class="media-title">AI 교양 정규 과목 시리즈</div><div class="media-desc">김덕진 소장 · 대학 AI 교육센터 정규 커리큘럼</div></div><a href="#" class="media-link"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a></div>
+        <div class="media-item"><div class="media-thumb rd"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg></div><div><div class="media-meta">공공기관 특강 · 2025</div><div class="media-title">공무원을 위한 AI 리터러시</div><div class="media-desc">농림부·국회의정연수원 등 · 공공 맞춤 커리큘럼</div></div><a href="#" class="media-link"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a></div>
+        <div class="media-item"><div class="media-thumb rd"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg></div><div><div class="media-meta">기업 맞춤 · 상시</div><div class="media-title">사내 AI 교육 커리큘럼 설계</div><div class="media-desc">기업별 산업·조직 맞춤 커리큘럼 설계 및 운영</div></div><a href="contact.html" class="media-link"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a></div>
+      </div>
+    </div>
+
+    <div class="tab-pane" id="pane-media">
+      <div class="media-list">
+        <div class="media-item"><div class="media-thumb tv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="7" width="20" height="15" rx="2"/><polyline points="17 2 12 7 7 2"/></svg></div><div><div class="media-meta">MBC · 고정 패널</div><div class="media-title">손에잡히는경제 — IT 전문 패널</div><div class="media-desc">김덕진 소장 · 고정 출연 / 김아람 이사 · 비정기 출연 · 15년+</div></div><a class="media-link"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a></div>
+        <div class="media-item"><div class="media-thumb tv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="7" width="20" height="15" rx="2"/><polyline points="17 2 12 7 7 2"/></svg></div><div><div class="media-meta">KBS1 · 고정 패널</div><div class="media-title">세상의 모든 정보 — IT 전문 패널</div><div class="media-desc">김덕진 소장 · 고정 출연 / 김아람 이사 · 비정기 출연</div></div><a class="media-link"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a></div>
+        <div class="media-item"><div class="media-thumb tv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="7" width="20" height="15" rx="2"/></svg></div><div><div class="media-meta">채널A · 비정기</div><div class="media-title">이야기 더</div><div class="media-desc">김아람 이사 · AI·IT 관련 특집 출연</div></div><a class="media-link"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a></div>
+        <div class="media-item"><div class="media-thumb tv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="7" width="20" height="15" rx="2"/></svg></div><div><div class="media-meta">KTV · 비정기</div><div class="media-title">글로벌 인사이트</div><div class="media-desc">김아람 이사 · 글로벌 IT 트렌드 패널</div></div><a class="media-link"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a></div>
+        <div class="media-item"><div class="media-thumb yt"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></div><div><div class="media-meta">YouTube · 자체 채널</div><div class="media-title">김덕진의 AI디아</div><div class="media-desc">김덕진 소장 직접 운영 · AI 트렌드 큐레이션</div></div><a href="#" class="media-link"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a></div>
+        <div class="media-item"><div class="media-thumb pc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10v2a7 7 0 0 0 14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg></div><div><div class="media-meta">팟캐스트 · 게스트</div><div class="media-title">T타임즈 · 티끌모아 AI 등</div><div class="media-desc">두 대표강사 · 주요 비즈니스 팟캐스트 게스트 출연 다수</div></div><a class="media-link"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a></div>
+        <div class="media-item"><div class="media-thumb pc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div><div class="media-meta">현대경제연구원 · 기고</div><div class="media-title">IT TREND MAGAZINE 정기 기고</div><div class="media-desc">김아람 이사 · 주기적 IT 트렌드 아티클 기고</div></div><a class="media-link"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a></div>
+        <div class="media-item"><div class="media-thumb tv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg></div><div><div class="media-meta">자문 · 정부</div><div class="media-title">행안부 · 한수원 자문위원</div><div class="media-desc">김덕진 소장 · AI 정부 기술자문단, K-water AI First 전략자문</div></div><a class="media-link"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.tab-pane').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  document.getElementById('pane-'+b.dataset.t).classList.add('active');
+}));
+</script>
+<script src="../assets/layout.js"></script>
+</body></html>

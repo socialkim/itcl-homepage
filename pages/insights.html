@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Insights · ITCL</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"/>
+<link rel="stylesheet" href="../assets/styles.css"/>
+<style>
+.filter-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--border)}
+.filter-chip{padding:8px 16px;border:1px solid var(--border);background:#fff;border-radius:999px;font-size:13px;font-weight:500;color:var(--ink-soft);cursor:pointer;transition:all 0.15s}
+.filter-chip:hover{border-color:var(--accent);color:var(--accent)}
+.filter-chip.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+.insights-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.insight-card{background:#fff;border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all 0.25s;display:flex;flex-direction:column}
+.insight-card:hover{transform:translateY(-4px);box-shadow:0 20px 40px -20px rgba(10,14,26,0.15);border-color:var(--accent)}
+.insight-thumb{aspect-ratio:16/10;background:linear-gradient(135deg,var(--bg-soft),#eef0f8);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.insight-thumb svg{width:42px;height:42px;color:var(--muted-2);opacity:0.5}
+.insight-thumb::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 30%,rgba(99,91,255,0.1),transparent 60%)}
+.insight-body{padding:22px;display:flex;flex-direction:column;flex:1}
+.insight-meta{display:flex;gap:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.08em;color:var(--muted-2);text-transform:uppercase;margin-bottom:12px;font-weight:600}
+.insight-meta .cat{color:var(--accent)}
+.insight-title{font-size:18px;font-weight:700;letter-spacing:-0.02em;line-height:1.3;margin-bottom:10px;color:var(--ink)}
+.insight-exc{font-size:13px;color:var(--ink-mid);line-height:1.6;margin-bottom:16px;flex:1;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.insight-foot{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);padding-top:12px;border-top:1px solid var(--border-2)}
+.insight-author{font-weight:600;color:var(--ink-soft)}
+.feat-card{grid-column:span 3;display:grid;grid-template-columns:1.2fr 1fr;gap:0;padding:0}
+.feat-card .insight-thumb{aspect-ratio:unset;min-height:360px}
+.feat-card .insight-body{padding:40px}
+.feat-card .insight-title{font-size:30px;margin-bottom:16px}
+.feat-card .insight-exc{font-size:15px;-webkit-line-clamp:3}
+.feat-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;background:var(--accent);color:#fff;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;border-radius:999px;margin-bottom:14px;width:fit-content}
+@media (max-width:1024px){.insights-grid{grid-template-columns:repeat(2,1fr)} .feat-card{grid-column:span 2;grid-template-columns:1fr}}
+@media (max-width:600px){.insights-grid{grid-template-columns:1fr} .feat-card{grid-column:span 1}}
+</style><!-- SEO ~ auto-injected by _workspace/inject-seo.js ~ -->
+<link rel="canonical" href="https://itcl.kr/pages/insights.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ITCL · IT커뮤니케이션연구소">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="Insights · ITCL">
+<meta property="og:description" content="AI 트렌드, 도입 전략, 거버넌스, 에이전트 현실 — 김덕진 소장이 쓰는 실무 인사이트.">
+<meta property="og:url" content="https://itcl.kr/pages/insights.html">
+<meta property="og:image" content="https://itcl.kr/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Insights · ITCL">
+<meta name="twitter:description" content="AI 트렌드, 도입 전략, 거버넌스, 에이전트 현실 — 김덕진 소장이 쓰는 실무 인사이트.">
+<meta name="twitter:image" content="https://itcl.kr/assets/og-default.png">
+<meta name="theme-color" content="#635bff">
+<meta name="robots" content="index,follow">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<!-- ~ end SEO block ~ -->
+</head>
+<body>
+<script>window.ITCL_PAGE='insights';window.ITCL_BASE='..';</script>
+
+<section class="page-hero"><div class="mesh"></div><div class="page-hero-inner">
+  <div class="crumb"><a href="../index.html">Home</a><span class="sep">/</span><span>Insights</span></div>
+  <h1 class="page-title">AI 현장에서 길어올린<br/><span class="grad">인사이트 칼럼.</span></h1>
+  <p class="page-lead">대표강사와 파트너 강사들이 현장과 리서치에서 얻은 관점을 정리한 칼럼입니다. 트렌드, 사례 분석, 도구 리뷰까지.</p>
+</div></section>
+
+<section class="sec">
+  <div class="container">
+    <div class="filter-bar">
+      <button class="filter-chip active" data-f="all">전체</button>
+      <button class="filter-chip" data-f="trend">트렌드</button>
+      <button class="filter-chip" data-f="tool">도구 리뷰</button>
+      <button class="filter-chip" data-f="case">사례 분석</button>
+      <button class="filter-chip" data-f="strategy">전략 · 거버넌스</button>
+      <button class="filter-chip" data-f="research">리서치 노트</button>
+    </div>
+    <div class="insights-grid" id="grid"></div>
+  </div>
+</section>
+
+<script>
+const posts=[
+  {id:'ai-agent-paradigm',f:true,cat:'trend',catL:'트렌드',date:'2026.04.08',t:'AI 에이전트 시대, 조직은 무엇을 준비해야 하는가',e:'단순 챗봇을 넘어 업무를 "실행"하는 AI 에이전트가 실제 조직에 들어왔을 때, HR과 보안·거버넌스는 어떻게 재설계되어야 하는가에 대한 현장 노트.',a:'김덕진 소장',r:'8분'},
+  {id:'physical-ai',cat:'trend',catL:'트렌드',date:'2026.04.01',t:'피지컬 AI: 2026년 산업 지형을 바꾸는 세 가지 신호',e:'CES 2026과 최근 로봇 투자 라운드에서 확인한 피지컬 AI의 실물 신호. 제조·물류·의료 현장의 적용 시나리오를 정리.',a:'김덕진 소장',r:'6분'},
+  {id:'workflow-thinking',cat:'strategy',catL:'전략',date:'2026.03.24',t:'"워크플로 사고": AI 도입이 실패하는 진짜 이유',e:'AI 도구를 아무리 잘 쓴다 한들, 업무 프로세스 자체를 재설계하지 않으면 효과는 제한적이다. 실패 사례에서 배운 원칙.',a:'김아람 이사',r:'7분'},
+  {id:'aeo-seo',cat:'trend',catL:'트렌드',date:'2026.03.18',t:'제로클릭 시대: SEO가 AEO로 넘어가는 순간',e:'AI Overview·ChatGPT Search가 검색 결과를 대체하면서 기업 마케팅의 근본 문법이 바뀌고 있다. AEO 적응 전략.',a:'이지은 파트너',r:'5분'},
+  {id:'claude-vs-gpt',cat:'tool',catL:'도구 리뷰',date:'2026.03.10',t:'Claude 4.5 vs ChatGPT-5: 실무 적합성 비교 실험',e:'8가지 실무 태스크(리서치·초안·코드·번역·요약 등)에서 두 모델을 직접 비교한 리포트. 어떤 업무에 어떤 모델이 적합한가.',a:'정하민 파트너',r:'10분'},
+  {id:'hr-ai-adoption',cat:'case',catL:'사례',date:'2026.03.04',t:'대기업 HR팀의 AI 채용 도입기: 성공과 실패 사이',e:'S그룹 HR팀의 AI 채용 보조 도구 도입 1년 리뷰. 편향 이슈, 지원자 경험, 평가자 수용도를 중심으로.',a:'박상욱 파트너',r:'9분'},
+  {id:'ai-governance-kr',cat:'strategy',catL:'거버넌스',date:'2026.02.25',t:'국내 AI 기본법, 기업은 무엇부터 준비해야 하는가',e:'2026년 시행된 AI 기본법의 핵심 조항과, 일반 기업이 실무적으로 대응해야 할 체크리스트.',a:'안수민 파트너',r:'7분'},
+  {id:'prompt-library',cat:'tool',catL:'도구 리뷰',date:'2026.02.18',t:'사내 프롬프트 라이브러리: 만드는 법과 운영하는 법',e:'팀 단위 프롬프트 공유가 실패하는 전형적 패턴과, 실제로 돌아가게 만드는 4가지 운영 규칙.',a:'서승완 파트너',r:'6분'},
+  {id:'research-automation',cat:'research',catL:'리서치',date:'2026.02.11',t:'리서치 자동화 실험: NotebookLM과 Deep Research의 분업',e:'두 도구를 조합해 한 달간 진행한 리서치 워크플로우 실험 기록. 무엇이 자동화되고 무엇은 여전히 사람인가.',a:'김아람 이사',r:'8분'},
+  {id:'executive-literacy',cat:'strategy',catL:'전략',date:'2026.02.04',t:'임원의 AI 리터러시, 실무자의 그것과는 달라야 한다',e:'C-Level 대상 교육 50+회에서 정리한, "의사결정권자"가 반드시 알아야 하는 AI 핵심 개념 10가지.',a:'김덕진 소장',r:'6분'},
+  {id:'vibe-coding',cat:'tool',catL:'도구 리뷰',date:'2026.01.28',t:'바이브코딩: 비개발자의 프로덕트 빌드 실전기',e:'Lovable, Cursor, v0를 조합해 한 주만에 사내 도구를 만든 과정. 비개발자에게 정말 가능한가.',a:'이보라 파트너',r:'7분'},
+  {id:'finance-ai',cat:'case',catL:'사례',date:'2026.01.21',t:'PB 현장의 AI 투자전략: 고객 신뢰의 새 문법',e:'금융 PB 교육 현장에서 확인한 AI 투자 분석 도구의 실효성과, 고객에게 설명하는 기술.',a:'유호석 파트너',r:'8분'}
+];
+const catColors={trend:'#635bff',tool:'#00d4b4',case:'#ff7d5c',strategy:'#5b6074',research:'#b084ff'};
+const grid=document.getElementById('grid');
+function render(f){
+  const filtered=f==='all'?posts:posts.filter(p=>p.cat===f);
+  grid.innerHTML=filtered.map((p,i)=>{
+    const isFeat=f==='all'&&p.f;
+    return `<a class="insight-card ${isFeat?'feat-card':''}" href="insights-detail.html?id=${p.id}">
+      <div class="insight-thumb" style="background:linear-gradient(135deg,${catColors[p.cat]}15,${catColors[p.cat]}08)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      </div>
+      <div class="insight-body">
+        ${isFeat?'<span class="feat-badge">◆ Featured</span>':''}
+        <div class="insight-meta"><span class="cat">${p.catL}</span><span>·</span><span>${p.date}</span></div>
+        <h3 class="insight-title">${p.t}</h3>
+        <p class="insight-exc">${p.e}</p>
+        <div class="insight-foot"><span class="insight-author">${p.a}</span><span>${p.r}</span></div>
+      </div>
+    </a>`;
+  }).join('');
+}
+render('all');
+document.querySelectorAll('.filter-chip').forEach(c=>c.addEventListener('click',()=>{
+  document.querySelectorAll('.filter-chip').forEach(x=>x.classList.remove('active'));
+  c.classList.add('active');render(c.dataset.f);
+}));
+</script>
+<script src="../assets/layout.js"></script>
+</body></html>

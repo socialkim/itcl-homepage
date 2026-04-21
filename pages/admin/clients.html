@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>클라이언트 기업 · ITCL 관리자</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/styles.css" />
+  <link rel="stylesheet" href="/assets/admin.css" />
+  <style>
+    .client-row { display: grid; grid-template-columns: 60px 1fr 2.2fr 80px 90px 80px 80px; gap: 10px; align-items: center; padding: 12px; border-bottom: 1px solid var(--border-2); }
+    .client-row:hover { background: var(--bg-softer); }
+    .client-row input, .client-row select { font-family: inherit; font-size: 13px; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; width: 100%; }
+    .client-row input:focus { outline: none; border-color: var(--accent); }
+    .client-row .preview { width: 48px; height: 48px; border: 1px solid var(--border-2); border-radius: 6px; display: flex; align-items: center; justify-content: center; background: #fff; overflow: hidden; }
+    .client-row .preview img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    .client-row .preview.empty { font-size: 11px; color: var(--muted); }
+    .client-row .actions { display: flex; gap: 4px; justify-content: flex-end; }
+    .header-row { display: grid; grid-template-columns: 60px 1fr 2.2fr 80px 90px 80px 80px; gap: 10px; padding: 10px 12px; background: var(--bg-soft); font-size: 11px; color: var(--muted); font-family: 'JetBrains Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase; border-bottom: 1px solid var(--border); }
+    .upload-btn { font-family: inherit; font-size: 12px; padding: 8px 10px; border: 1px dashed var(--border); border-radius: 6px; background: var(--bg-soft); cursor: pointer; white-space: nowrap; }
+    .upload-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .upload-btn.uploading { color: var(--accent); border-style: solid; }
+    .upload-btn input[type=file] { display: none; }
+    @media (max-width: 900px) {
+      .client-row, .header-row { grid-template-columns: 1fr; }
+      .header-row { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="admin-main">
+    <h1 class="page-h1">클라이언트 기업 관리</h1>
+    <p class="page-sub">메인 페이지 상단 "Trusted by 1,000+ organizations" 섹션에 표시되는 기업 목록입니다. 이름만 입력하거나 로고 이미지 URL을 함께 제공할 수 있습니다.</p>
+
+    <div id="alerts"></div>
+
+    <div class="card">
+      <h2>섹션 설정</h2>
+      <div class="form-field">
+        <label>상단 라벨 (kicker)</label>
+        <input type="text" id="sec_kicker" placeholder="Trusted by 1,000+ organizations" />
+      </div>
+      <div class="form-field">
+        <label>상단 설명</label>
+        <input type="text" id="sec_label" placeholder="· 대한민국을 대표하는 기업·공공기관이 선택한 AI 교육 파트너" />
+      </div>
+    </div>
+
+    <div class="card" style="padding:0; overflow:hidden;">
+      <div style="padding:20px 24px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border);">
+        <h2 style="margin:0;">클라이언트 목록</h2>
+        <div class="btn-group">
+          <button class="btn small secondary" id="seedBtn">기본 15개 불러오기</button>
+          <button class="btn small primary" id="addBtn">+ 기업 추가</button>
+        </div>
+      </div>
+
+      <div class="header-row">
+        <div>로고</div>
+        <div>기업명</div>
+        <div>로고 URL (또는 업로드)</div>
+        <div>업로드</div>
+        <div>순서</div>
+        <div>활성</div>
+        <div>작업</div>
+      </div>
+
+      <div id="rowsWrap"></div>
+    </div>
+
+    <div class="btn-group" style="margin-top:20px;">
+      <button class="btn primary" id="saveBtn">전체 저장</button>
+      <a href="/pages/admin/dashboard.html" class="btn secondary">대시보드</a>
+      <a href="/" target="_blank" class="btn secondary">메인 페이지 미리보기 ↗</a>
+    </div>
+  </main>
+
+  <script src="/assets/admin.js"></script>
+  <script>
+    const DEFAULT_CLIENTS = [
+      { name: '삼성그룹', logo_url: '', display_order: 10, is_active: true },
+      { name: 'SK그룹', logo_url: '', display_order: 20, is_active: true },
+      { name: 'LG전자', logo_url: '', display_order: 30, is_active: true },
+      { name: '현대자동차', logo_url: '', display_order: 40, is_active: true },
+      { name: 'KB금융그룹', logo_url: '', display_order: 50, is_active: true },
+      { name: '신한금융그룹', logo_url: '', display_order: 60, is_active: true },
+      { name: '두산그룹', logo_url: '', display_order: 70, is_active: true },
+      { name: '롯데그룹', logo_url: '', display_order: 80, is_active: true },
+      { name: 'GS그룹', logo_url: '', display_order: 90, is_active: true },
+      { name: '한화그룹', logo_url: '', display_order: 100, is_active: true },
+      { name: '크래프톤', logo_url: '', display_order: 110, is_active: true },
+      { name: '대검찰청', logo_url: '', display_order: 120, is_active: true },
+      { name: '행정안전부', logo_url: '', display_order: 130, is_active: true },
+      { name: '한국수자원공사', logo_url: '', display_order: 140, is_active: true },
+      { name: '국회의정연수원', logo_url: '', display_order: 150, is_active: true },
+    ];
+
+    (async () => {
+      if (!(await ITCL_checkSession())) return;
+      ITCL_renderShell('clients');
+
+      let content = { kicker: '', label: '', items: [] };
+
+      async function load() {
+        try {
+          const { item } = await ITCL_api('/api/admin/sections', { query: { page: 'clients' } });
+          content = item.content || { kicker: '', label: '', items: [] };
+        } catch (e) {
+          if (!String(e.message).includes('404')) {
+            document.getElementById('alerts').innerHTML = `<div class="alert error">${ITCL_esc(e.message)}</div>`;
+          }
+          // 404는 정상 (아직 레코드 없음)
+          content = {
+            kicker: 'Trusted by 1,000+ organizations',
+            label: '· 대한민국을 대표하는 기업·공공기관이 선택한 AI 교육 파트너',
+            items: []
+          };
+        }
+        document.getElementById('sec_kicker').value = content.kicker || '';
+        document.getElementById('sec_label').value = content.label || '';
+        renderRows(content.items || []);
+      }
+
+      function renderRows(items) {
+        const wrap = document.getElementById('rowsWrap');
+        if (!items.length) {
+          wrap.innerHTML = '<div style="padding:40px; text-align:center; color:var(--muted);">등록된 기업이 없습니다. "+ 기업 추가" 또는 "기본 15개 불러오기" 버튼을 누르세요.</div>';
+          return;
+        }
+        wrap.innerHTML = items.map((it, idx) => `
+          <div class="client-row" data-idx="${idx}">
+            <div class="preview ${it.logo_url ? '' : 'empty'}">
+              ${it.logo_url ? `<img src="${ITCL_esc(it.logo_url)}" alt="${ITCL_esc(it.name || '')}" />` : '없음'}
+            </div>
+            <input type="text" data-field="name" value="${ITCL_esc(it.name || '')}" placeholder="기업명" />
+            <input type="url" data-field="logo_url" value="${ITCL_esc(it.logo_url || '')}" placeholder="업로드하거나 URL 붙여넣기" />
+            <label class="upload-btn" data-upload="${idx}">
+              📤 선택
+              <input type="file" accept="image/png,image/jpeg,image/gif,image/svg+xml,image/webp" />
+            </label>
+            <input type="number" data-field="display_order" value="${it.display_order ?? 100}" />
+            <label style="display:flex; align-items:center; gap:6px; font-size:12px;"><input type="checkbox" data-field="is_active" ${it.is_active ? 'checked' : ''}/> 표시</label>
+            <div class="actions">
+              <button class="btn small secondary" data-move-up="${idx}" title="위로">↑</button>
+              <button class="btn small secondary" data-move-down="${idx}" title="아래로">↓</button>
+              <button class="btn small danger" data-remove="${idx}" title="삭제">✕</button>
+            </div>
+          </div>
+        `).join('');
+
+        // 로고 URL 입력 시 미리보기 업데이트
+        wrap.querySelectorAll('.client-row').forEach(row => {
+          const idx = +row.dataset.idx;
+          row.querySelectorAll('input, select').forEach(el => {
+            el.addEventListener('input', () => {
+              const field = el.dataset.field;
+              let val = el.type === 'checkbox' ? el.checked : el.value;
+              if (field === 'display_order') val = parseInt(val) || 100;
+              content.items[idx][field] = val;
+              if (field === 'logo_url') {
+                const preview = row.querySelector('.preview');
+                if (val) { preview.classList.remove('empty'); preview.innerHTML = `<img src="${val}" alt="" />`; }
+                else { preview.classList.add('empty'); preview.innerHTML = '없음'; }
+              }
+            });
+          });
+          row.querySelector('[data-remove]').addEventListener('click', () => {
+            if (!confirm('이 기업을 삭제하시겠습니까?')) return;
+            content.items.splice(idx, 1);
+            renderRows(content.items);
+          });
+          row.querySelector('[data-move-up]').addEventListener('click', () => {
+            if (idx === 0) return;
+            [content.items[idx-1], content.items[idx]] = [content.items[idx], content.items[idx-1]];
+            renderRows(content.items);
+          });
+          row.querySelector('[data-move-down]').addEventListener('click', () => {
+            if (idx >= content.items.length - 1) return;
+            [content.items[idx], content.items[idx+1]] = [content.items[idx+1], content.items[idx]];
+            renderRows(content.items);
+          });
+
+          // 파일 업로드
+          const uploadLabel = row.querySelector(`[data-upload="${idx}"]`);
+          const fileInput = uploadLabel.querySelector('input[type=file]');
+          fileInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            if (file.size > 3 * 1024 * 1024) {
+              ITCL_toast('파일이 너무 큽니다 (최대 3MB)', 'error');
+              fileInput.value = '';
+              return;
+            }
+            uploadLabel.classList.add('uploading');
+            uploadLabel.childNodes[0].nodeValue = '⬆ 업로드 중';
+            try {
+              const base64 = await fileToBase64(file);
+              const safeName = (content.items[idx].name || 'logo').replace(/[^\w가-힣]/g, '-') + '-' + file.name;
+              const res = await ITCL_api('/api/admin/upload', {
+                method: 'POST',
+                body: { filename: safeName, base64, contentType: file.type, folder: 'uploads/logos' },
+              });
+              content.items[idx].logo_url = res.url;
+              renderRows(content.items);
+              ITCL_toast('업로드 완료 — 하단 "전체 저장" 눌러 DB에 반영하세요', 'success');
+            } catch (err) {
+              ITCL_toast('업로드 실패: ' + err.message, 'error');
+              console.error(err);
+              uploadLabel.classList.remove('uploading');
+              uploadLabel.childNodes[0].nodeValue = '📤 선택';
+            }
+            fileInput.value = '';
+          });
+        });
+      }
+
+      function fileToBase64(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => {
+            const result = reader.result || '';
+            const comma = result.indexOf(',');
+            resolve(comma >= 0 ? result.slice(comma + 1) : result);
+          };
+          reader.onerror = () => reject(new Error('파일 읽기 실패'));
+          reader.readAsDataURL(file);
+        });
+      }
+
+      document.getElementById('addBtn').addEventListener('click', () => {
+        const maxOrder = content.items.reduce((m, it) => Math.max(m, it.display_order || 0), 0);
+        content.items.push({ name: '', logo_url: '', display_order: maxOrder + 10, is_active: true });
+        renderRows(content.items);
+        // 새로 추가한 행의 이름 입력란에 포커스
+        const rows = document.querySelectorAll('.client-row');
+        const lastRow = rows[rows.length - 1];
+        if (lastRow) lastRow.querySelector('[data-field="name"]').focus();
+      });
+
+      document.getElementById('seedBtn').addEventListener('click', () => {
+        if (content.items.length && !confirm('기존 목록을 덮어씁니다. 진행할까요?')) return;
+        content.items = JSON.parse(JSON.stringify(DEFAULT_CLIENTS));
+        renderRows(content.items);
+        ITCL_toast('기본 15개 로드됨. 저장 버튼을 눌러 DB에 반영하세요.', 'success');
+      });
+
+      document.getElementById('saveBtn').addEventListener('click', async () => {
+        content.kicker = document.getElementById('sec_kicker').value;
+        content.label = document.getElementById('sec_label').value;
+        try {
+          await ITCL_api('/api/admin/sections', {
+            method: 'PUT',
+            query: { page: 'clients' },
+            body: { content, label: '클라이언트 기업 (메인 페이지)' }
+          });
+          ITCL_toast('저장되었습니다. 메인 페이지에서 확인해보세요.', 'success');
+        } catch (e) {
+          ITCL_toast('저장 실패: ' + e.message, 'error');
+        }
+      });
+
+      load();
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Case · ITCL</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"/>
+<link rel="stylesheet" href="../assets/styles.css"/>
+<style>
+.case-hero{padding:72px 40px 56px;max-width:1040px;margin:0 auto}
+.case-hero-kicker{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.18em;color:var(--accent);text-transform:uppercase;margin-bottom:20px;font-weight:700}
+.case-hero-title{font-size:clamp(32px,4.2vw,48px);font-weight:700;letter-spacing:-0.028em;line-height:1.12;margin-bottom:24px}
+.case-hero-meta{display:flex;gap:28px;flex-wrap:wrap;padding-top:24px;border-top:1px solid var(--border);font-size:14px;color:var(--ink-mid)}
+.case-hero-meta div{display:flex;flex-direction:column;gap:4px}
+.case-hero-meta .k{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.12em;color:var(--muted);text-transform:uppercase;font-weight:600}
+.case-hero-meta .v{font-weight:600;color:var(--ink)}
+.case-body{max-width:860px;margin:0 auto;padding:0 40px 64px}
+.case-section{margin-bottom:56px}
+.case-section h2{font-size:24px;font-weight:700;letter-spacing:-0.02em;margin-bottom:16px;color:var(--ink);display:flex;align-items:center;gap:12px}
+.case-section h2::before{content:'';width:4px;height:22px;background:var(--accent);border-radius:2px}
+.case-section p{font-size:16px;color:var(--ink-mid);line-height:1.8;margin-bottom:14px}
+.case-section ul{margin:14px 0 14px 8px;list-style:none}
+.case-section li{padding:10px 0 10px 22px;position:relative;font-size:15px;color:var(--ink-mid);line-height:1.65;border-bottom:1px solid var(--border-2)}
+.case-section li::before{content:'→';position:absolute;left:0;top:10px;color:var(--accent);font-weight:700}
+.case-section li strong{color:var(--ink);font-weight:600}
+.big-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:40px 0}
+.big-stat{background:var(--bg-soft);border:1px solid var(--border);border-radius:14px;padding:24px 20px;text-align:left}
+.big-stat .v{font-size:38px;font-weight:700;color:var(--accent);letter-spacing:-0.025em;line-height:1;margin-bottom:8px}
+.big-stat .l{font-size:12px;color:var(--muted);font-weight:500}
+.quote-block{background:linear-gradient(135deg,rgba(99,91,255,0.06),rgba(0,212,180,0.04));border:1px solid var(--border);border-radius:16px;padding:32px 36px;margin:32px 0;position:relative}
+.quote-block::before{content:'"';position:absolute;top:-8px;left:20px;font-size:72px;color:var(--accent);font-family:serif;font-weight:700;line-height:1}
+.quote-block p{font-size:17px;line-height:1.7;color:var(--ink);font-style:italic;margin-bottom:14px;padding-left:40px}
+.quote-block cite{font-style:normal;font-size:13px;color:var(--muted);padding-left:40px;display:block;font-weight:500}
+.cta-back{max-width:860px;margin:0 auto;padding:32px 40px 80px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;border-top:1px solid var(--border)}
+.cta-back a{color:var(--muted);font-size:14px;font-weight:500}
+.cta-back a:hover{color:var(--accent)}
+@media (max-width:760px){.big-stats{grid-template-columns:repeat(2,1fr)}}
+</style><!-- SEO ~ auto-injected by _workspace/inject-seo.js ~ -->
+<link rel="canonical" href="https://itcl.kr/pages/cases-detail.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ITCL · IT커뮤니케이션연구소">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="Case · ITCL">
+<meta property="og:description" content="ITCL 교육 사례 상세.">
+<meta property="og:url" content="https://itcl.kr/pages/cases-detail.html">
+<meta property="og:image" content="https://itcl.kr/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Case · ITCL">
+<meta name="twitter:description" content="ITCL 교육 사례 상세.">
+<meta name="twitter:image" content="https://itcl.kr/assets/og-default.png">
+<meta name="theme-color" content="#635bff">
+<meta name="robots" content="index,follow">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<!-- ~ end SEO block ~ -->
+</head>
+<body>
+<script>window.ITCL_PAGE='cases';window.ITCL_BASE='..';</script>
+
+<div id="case"></div>
+
+<section class="cta-back">
+  <a href="cases.html">← Cases 목록으로</a>
+  <a href="contact.html" class="btn-primary">유사 교육 문의 →</a>
+</section>
+
+<script>
+const CASES={
+  'samsung-cxo':{client:'S그룹',industry:'대기업',t:'C-Level 전원 대상 AI 리더십 프로그램',
+    meta:{'교육 대상':'임원 30명+','기간':'1일 × 반복','강사':'김아람 이사','형식':'집중형 워크숍'},
+    stats:[{v:'96%',l:'참여자 만족도'},{v:'4회',l:'연속 재의뢰'},{v:'120+',l:'누적 참여 임원'},{v:'8시간',l:'집중 프로그램'}],
+    challenge:`<p>S그룹 인재개발팀은 사내 AI 도입이 <strong>임원 단계에서 정체되어 있다는 문제의식</strong>을 가지고 있었습니다. 실무자는 이미 AI를 활용하고 있지만, 의사결정권자들이 "무엇을 기준으로 AI를 판단해야 하는지" 모르기 때문에 조직 전체의 속도가 느려지고 있었습니다.</p><p>ITCL은 이 문제를 "임원의 AI 사용법"이 아니라 "AI 시대의 의사결정 프레임"으로 재정의하고 프로그램을 설계했습니다.</p>`,
+    approach:`<ul>
+      <li><strong>사전 리서치:</strong> 임원 10명 심층 인터뷰로 실제 고민과 의사결정 시나리오 매핑</li>
+      <li><strong>커스텀 케이스:</strong> S그룹 산업·사업 구조 기반 실전 케이스 8종 개발</li>
+      <li><strong>워크플로 사고 중심:</strong> 보고·리서치·전략 회의 3가지 임원 핵심 워크플로우에 AI 결합</li>
+      <li><strong>즉시 적용 실습:</strong> 그날 오후부터 쓸 수 있는 프롬프트 세트 지급</li>
+    </ul>`,
+    result:`<p>첫 프로그램 이후 <strong>임원 자발적으로 반복 참여</strong>가 이어졌고, 계열사 단위로 확장 의뢰가 들어왔습니다. 특히 "AI 도입 의사결정 속도"가 눈에 띄게 빨라져, 사내 AI 프로젝트 승인 주기가 평균 40% 단축되었다는 피드백을 받았습니다.</p>`,
+    quote:{q:'임원 대상 AI 교육은 많이 받아봤지만, 실제 우리 회사 사례로 "의사결정 실습"까지 하는 프로그램은 처음이었습니다. 다음 분기에도 다른 법인 임원들을 위해 다시 부탁드렸습니다.',a:'S그룹 인재개발팀 팀장'}
+  },
+  'sk-exec':{client:'SK그룹',industry:'대기업',t:'주요 계열사 임원진 AI 전략 특강 시리즈',
+    meta:{'교육 대상':'계열사 임원진','기간':'시리즈 12회','강사':'김덕진·김아람','형식':'특강 + Q&A'},
+    stats:[{v:'12회',l:'시리즈 진행'},{v:'95%',l:'만족도'},{v:'200+',l:'참여 임원'},{v:'6개',l:'계열사'}],
+    challenge:`<p>SK그룹은 계열사별로 산업 특성이 다양하기 때문에, 표준화된 AI 교육이 아닌 <strong>계열사별 맞춤 시나리오</strong>가 필요했습니다.</p>`,
+    approach:`<ul>
+      <li><strong>계열사별 사전 조사:</strong> 에너지·통신·반도체·물류 등 각 산업의 AI 활용 지점 매핑</li>
+      <li><strong>공통 프레임 + 맞춤 콘텐츠:</strong> "AI 리더십" 공통 프레임 위에 계열사별 케이스 50% 이상 커스텀</li>
+      <li><strong>시리즈 구조:</strong> 단발성 특강이 아닌, 주제별 시리즈로 누적 학습이 쌓이는 구조</li>
+    </ul>`,
+    result:`<p>계열사 간 <strong>AI 활용 사례 교차 학습</strong>이 활발해졌고, 그룹 차원의 AI 전략 수립 프로세스에 직접적으로 기여했다는 평가를 받았습니다.</p>`,
+    quote:{q:'단순 트렌드 전달이 아니라, 우리 산업의 실제 고민을 가지고 와서 함께 풀어주는 방식이 좋았습니다.',a:'SK계열사 전략실 임원'}
+  },
+  'kepco':{client:'한국수력원자력',industry:'공공',t:'전 직원 대상 AI 리터러시 커리큘럼',
+    meta:{'교육 대상':'전 직원 800+명','기간':'3단계 커리큘럼','강사':'ITCL 파트너 그룹','형식':'레벨별 혼합형'},
+    stats:[{v:'800+',l:'교육 이수자'},{v:'92%',l:'현업 적용률'},{v:'3단계',l:'레벨 체계'},{v:'6개월',l:'운영 기간'}],
+    challenge:`<p>한수원은 <strong>안전이 최우선인 에너지 공기업</strong>으로서, 일반 기업과는 다른 AI 도입 기준이 필요했습니다. 전 직원에게 동일한 교육을 하는 것이 아니라, 직군·레벨별로 적절한 깊이를 제공하는 것이 과제였습니다.</p>`,
+    approach:`<ul>
+      <li><strong>3단계 레벨링:</strong> 기초(리터러시) → 중급(실무) → 심화(리스크 의사결정) 커리큘럼 설계</li>
+      <li><strong>직군별 분기:</strong> 발전·안전·관리·연구 4개 직군별로 케이스 차별화</li>
+      <li><strong>공공 맞춤 가이드:</strong> 민감 정보 처리·보안 가이드라인을 모든 모듈에 녹임</li>
+    </ul>`,
+    result:`<p>6개월 운영 후 사내 AI 활용 도구가 <strong>공식 내부 시스템으로 편입</strong>되었고, 프로그램 평가에서 92%가 "현업에서 실제로 활용하고 있다"고 응답했습니다.</p>`,
+    quote:{q:'공공기관 특성상 보안이 가장 큰 고민이었는데, ITCL 커리큘럼은 처음부터 그 부분을 고려해서 설계되어 있어 큰 도움이 되었습니다.',a:'한수원 인재개발원 관계자'}
+  }
+};
+function render(id){
+  const c=CASES[id]||CASES['samsung-cxo'];
+  document.getElementById('case').innerHTML=`
+    <section class="case-hero">
+      <div class="crumb" style="margin-bottom:24px"><a href="../index.html">Home</a><span class="sep">/</span><a href="cases.html">Cases</a><span class="sep">/</span><span>${c.client}</span></div>
+      <div class="case-hero-kicker">● Case Study · ${c.industry}</div>
+      <h1 class="case-hero-title">${c.t}</h1>
+      <div class="case-hero-meta">
+        ${Object.entries(c.meta).map(([k,v])=>`<div><span class="k">${k}</span><span class="v">${v}</span></div>`).join('')}
+      </div>
+    </section>
+    <article class="case-body">
+      <div class="big-stats">
+        ${c.stats.map(s=>`<div class="big-stat"><div class="v">${s.v}</div><div class="l">${s.l}</div></div>`).join('')}
+      </div>
+      <div class="case-section"><h2>Challenge · 고객이 안고 있던 문제</h2>${c.challenge}</div>
+      <div class="case-section"><h2>Approach · ITCL의 접근</h2>${c.approach}</div>
+      <div class="case-section"><h2>Result · 프로그램이 만든 변화</h2>${c.result}</div>
+      <div class="quote-block"><p>${c.quote.q}</p><cite>— ${c.quote.a}</cite></div>
+    </article>`;
+}
+const id=new URLSearchParams(location.search).get('id')||'samsung-cxo';
+render(id);
+</script>
+<script src="../assets/layout.js"></script>
+</body></html>

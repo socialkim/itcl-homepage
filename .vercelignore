@@ -1,0 +1,22 @@
+.claude/
+_workspace/
+CLAUDE_CODE_PROMPT.md
+schema.sql
+ITCL Hero 비교 시안.html
+ITCL 홈페이지 v3 Clean Tech.html
+uploads/itcl_homepage_step2_guide.md
+uploads/itcl_homepage_v2.html
+*.log
+.DS_Store
+Thumbs.db
+
+ADMIN-CREDENTIALS.md
+_workspace/_admin_*.tmp
+schema-admin.sql
+supabase-fix-policy.sql
+dns-records-for-hosting.txt
+vercel-env-setup.txt
+HANDOFF.md
+강의용-대화로그-*.txt
+수파베이스*.txt
+README.md

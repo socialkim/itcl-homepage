@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Contact · ITCL</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"/>
+<link rel="stylesheet" href="../assets/styles.css"/>
+<style>
+.contact-grid{display:grid;grid-template-columns:0.8fr 1.2fr;gap:64px;align-items:start}
+.contact-info h2{font-size:32px;font-weight:700;letter-spacing:-0.025em;line-height:1.15;margin-bottom:20px}
+.contact-info h2 .grad{background:linear-gradient(110deg,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.contact-info p{font-size:15px;color:var(--ink-mid);line-height:1.7;margin-bottom:32px}
+.info-card{background:var(--bg-soft);border:1px solid var(--border);border-radius:14px;padding:20px 22px;margin-bottom:12px}
+.info-card .lbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.15em;color:var(--accent);text-transform:uppercase;margin-bottom:8px;font-weight:700}
+.info-card .val{font-size:15px;color:var(--ink);font-weight:600}
+.info-card .sub{font-size:12px;color:var(--muted);margin-top:3px}
+
+.contact-form{background:#fff;border:1px solid var(--border);border-radius:20px;padding:40px;box-shadow:0 8px 32px -12px rgba(10,14,26,0.06)}
+.form-title{font-size:22px;font-weight:700;letter-spacing:-0.02em;margin-bottom:6px}
+.form-sub{font-size:13px;color:var(--muted);margin-bottom:28px}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px}
+.field{margin-bottom:18px}
+.field label{display:block;font-size:12px;font-weight:600;color:var(--ink);margin-bottom:8px;letter-spacing:-0.01em}
+.field label .req{color:var(--accent-3)}
+.field input,.field select,.field textarea{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:10px;font-family:inherit;font-size:14px;color:var(--ink);background:#fff;transition:border 0.15s;font-weight:500}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(99,91,255,0.1)}
+.field textarea{resize:vertical;min-height:110px;font-family:inherit;line-height:1.5}
+.topic-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:6px}
+.topic-chip{padding:10px;border:1px solid var(--border);background:#fff;border-radius:10px;font-size:12px;font-weight:500;color:var(--ink-soft);cursor:pointer;text-align:center;transition:all 0.15s}
+.topic-chip:hover{border-color:var(--accent);color:var(--accent)}
+.topic-chip.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.checkbox-row{display:flex;align-items:flex-start;gap:10px;font-size:12px;color:var(--ink-mid);margin-bottom:20px;line-height:1.5}
+.checkbox-row input{width:auto;margin-top:2px}
+.checkbox-row a{color:var(--accent);text-decoration:underline}
+.submit-btn{width:100%;padding:15px;background:var(--ink);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px;letter-spacing:-0.01em}
+.submit-btn:hover:not(:disabled){background:var(--accent);transform:translateY(-1px);box-shadow:0 8px 24px -8px rgba(99,91,255,0.4)}
+.submit-btn:disabled{opacity:0.6;cursor:not-allowed}
+.form-status{margin-top:16px;padding:14px 16px;border-radius:10px;font-size:13px;line-height:1.5;display:none}
+.form-status.show{display:block}
+.form-status.success{background:rgba(0,184,150,0.08);color:#007d6e;border:1px solid rgba(0,184,150,0.25)}
+.form-status.error{background:rgba(255,79,79,0.08);color:#c4302b;border:1px solid rgba(255,79,79,0.25)}
+.form-status.info{background:rgba(99,91,255,0.06);color:var(--accent-deep);border:1px solid rgba(99,91,255,0.2)}
+
+@media (max-width:900px){.contact-grid{grid-template-columns:1fr;gap:40px} .field-row{grid-template-columns:1fr} .topic-grid{grid-template-columns:repeat(2,1fr)} .contact-form{padding:28px}}
+</style><!-- SEO ~ auto-injected by _workspace/inject-seo.js ~ -->
+<link rel="canonical" href="https://itcl.kr/pages/contact.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ITCL · IT커뮤니케이션연구소">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="Contact · ITCL">
+<meta property="og:description" content="교육 의뢰, 강사 섭외, 컨설팅 문의. ITCL에 강의를 의뢰하거나 파트너십을 제안하세요.">
+<meta property="og:url" content="https://itcl.kr/pages/contact.html">
+<meta property="og:image" content="https://itcl.kr/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Contact · ITCL">
+<meta name="twitter:description" content="교육 의뢰, 강사 섭외, 컨설팅 문의. ITCL에 강의를 의뢰하거나 파트너십을 제안하세요.">
+<meta name="twitter:image" content="https://itcl.kr/assets/og-default.png">
+<meta name="theme-color" content="#635bff">
+<meta name="robots" content="index,follow">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<!-- ~ end SEO block ~ -->
+</head>
+<body>
+<script>window.ITCL_PAGE='contact';window.ITCL_BASE='..';</script>
+
+<section class="page-hero"><div class="mesh"></div><div class="page-hero-inner">
+  <div class="crumb"><a href="../index.html">Home</a><span class="sep">/</span><span>Contact</span></div>
+  <h1 class="page-title">교육 의뢰부터<br/><span class="grad">일반 문의</span>까지.</h1>
+  <p class="page-lead">고객의 니즈에 딱 맞는 프로그램을 큐레이션해드립니다. 아래 폼을 통해 문의 주시면 1영업일 내에 답변드립니다.</p>
+</div></section>
+
+<section class="sec">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h2>함께 만들어갈<br/><span class="grad">교육 이야기.</span></h2>
+        <p>교육 의뢰·강의 섭외·자문·컨설팅·파트너십 등 어떤 주제든 편하게 연락 주세요. 대표강사 및 파트너 그룹 중 가장 적합한 전문가를 매칭해드립니다.</p>
+        <div class="info-card"><div class="lbl">Email</div><div class="val">contact@itcl.kr</div><div class="sub">교육 의뢰 · 일반 문의</div></div>
+        <div class="info-card"><div class="lbl">Phone</div><div class="val">02-0000-0000</div><div class="sub">평일 09:00 – 18:00</div></div>
+        <div class="info-card"><div class="lbl">Office</div><div class="val">서울특별시</div><div class="sub">구체 주소는 문의 후 안내</div></div>
+        <div class="info-card"><div class="lbl">Response</div><div class="val">1 영업일 이내</div><div class="sub">긴급한 경우 이메일에 표시해주세요</div></div>
+      </div>
+
+      <form class="contact-form" id="contactForm" autocomplete="on">
+        <div class="form-title">문의하기</div>
+        <div class="form-sub">* 표시는 필수 입력 항목입니다.</div>
+
+        <div class="field">
+          <label>문의 유형 <span class="req">*</span></label>
+          <div class="topic-grid">
+            <div class="topic-chip active" data-v="교육 의뢰">교육 의뢰</div>
+            <div class="topic-chip" data-v="강사 섭외">강사 섭외</div>
+            <div class="topic-chip" data-v="컨설팅">컨설팅</div>
+            <div class="topic-chip" data-v="미디어 · 방송">미디어 · 방송</div>
+            <div class="topic-chip" data-v="파트너십">파트너십</div>
+            <div class="topic-chip" data-v="기타">기타</div>
+          </div>
+          <input type="hidden" id="topic" name="topic" value="교육 의뢰"/>
+        </div>
+
+        <div class="field-row">
+          <div class="field"><label>이름 <span class="req">*</span></label><input type="text" id="name" name="name" required placeholder="홍길동"/></div>
+          <div class="field"><label>소속 · 회사 <span class="req">*</span></label><input type="text" id="company" name="company" required placeholder="ITCL"/></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label>이메일 <span class="req">*</span></label><input type="email" id="email" name="email" required placeholder="contact@itcl.kr"/></div>
+          <div class="field"><label>연락처</label><input type="tel" id="phone" name="phone" placeholder="010-0000-0000"/></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label>교육 대상</label>
+            <select id="audience" name="audience">
+              <option value="">선택해주세요</option>
+              <option>C-Level · 임원진</option><option>리더 · 팀장</option>
+              <option>실무자</option><option>전 직원</option><option>기타</option>
+            </select>
+          </div>
+          <div class="field"><label>예상 인원</label>
+            <select id="headcount" name="headcount">
+              <option value="">선택해주세요</option>
+              <option>20명 이하</option><option>20~50명</option>
+              <option>50~100명</option><option>100명 이상</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>문의 내용 <span class="req">*</span></label>
+          <textarea id="message" name="message" required placeholder="교육 목적, 희망 주제, 일정, 기타 고려사항 등을 자유롭게 적어주세요."></textarea>
+        </div>
+
+        <div class="checkbox-row">
+          <input type="checkbox" id="agree" required/>
+          <label for="agree" style="margin:0;font-weight:400;font-size:12px"><a href="#">개인정보 수집·이용 방침</a>에 동의합니다. 문의 응대 목적으로만 사용되며, 3년 후 자동 파기됩니다.</label>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submitBtn">
+          <span>문의 보내기</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+        </button>
+        <div class="form-status" id="formStatus"></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script src="../assets/supabase.js"></script>
+<script>
+document.querySelectorAll('.topic-chip').forEach(c=>c.addEventListener('click',()=>{
+  document.querySelectorAll('.topic-chip').forEach(x=>x.classList.remove('active'));
+  c.classList.add('active');
+  document.getElementById('topic').value=c.dataset.v;
+}));
+
+const form=document.getElementById('contactForm');
+const status=document.getElementById('formStatus');
+const btn=document.getElementById('submitBtn');
+
+form.addEventListener('submit',async e=>{
+  e.preventDefault();
+  btn.disabled=true;
+  status.className='form-status show info';
+  status.textContent='문의를 전송 중입니다...';
+
+  const data={
+    topic:form.topic.value, name:form.name.value, company:form.company.value,
+    email:form.email.value, phone:form.phone.value||null,
+    audience:form.audience.value||null, headcount:form.headcount.value||null,
+    message:form.message.value,
+    submitted_at:new Date().toISOString()
+  };
+
+  try{
+    const result=await window.ITCL_SUBMIT_CONTACT(data);
+    if(result.ok){
+      status.className='form-status show success';
+      status.innerHTML='✓ 문의가 성공적으로 전송되었습니다. 1영업일 내에 답변드리겠습니다.';
+      form.reset();
+      document.querySelectorAll('.topic-chip').forEach(x=>x.classList.remove('active'));
+      document.querySelector('.topic-chip').classList.add('active');
+    }else{
+      throw new Error(result.error||'전송 실패');
+    }
+  }catch(err){
+    status.className='form-status show error';
+    status.innerHTML='✗ 전송에 실패했습니다: '+err.message+'<br/>이메일(contact@itcl.kr)로 직접 연락 주세요.';
+  }finally{
+    btn.disabled=false;
+  }
+});
+</script>
+<script src="../assets/layout.js"></script>
+</body></html>

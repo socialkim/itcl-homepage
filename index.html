@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>IT커뮤니케이션연구소 | 사람과 AI의 연결을 만드는 전문 교육 파트너</title>
+<meta name="description" content="누적 수강생 50,000명, 1,000+ 기업·기관이 선택한 생성형 AI 교육 전문 기관. 대표강사 김덕진 소장, 김아람 이사가 함께합니다."/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"/>
+<link rel="stylesheet" href="./assets/styles.css"/>
+<style>
+.hero-stats{position:absolute;right:40px;top:220px;display:grid;gap:12px;width:280px;z-index:3}
+.stat-card{background:rgba(255,255,255,0.85);backdrop-filter:blur(16px);border:1px solid var(--border);border-radius:14px;padding:18px 20px;box-shadow:0 20px 40px -20px rgba(10,14,26,0.15)}
+.stat-card .lbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.12em;color:var(--accent);text-transform:uppercase;margin-bottom:8px;font-weight:700}
+.stat-card .num{font-size:32px;font-weight:700;letter-spacing:-0.025em;line-height:1;margin-bottom:6px}
+.stat-card .num span{color:var(--accent)}
+.stat-card .desc{font-size:12px;color:var(--muted);line-height:1.4}
+.proof{margin-top:72px;display:grid;grid-template-columns:240px 1fr;gap:32px;align-items:center;padding-top:40px;border-top:1px solid var(--border)}
+.proof-label{font-size:13px;color:var(--muted);line-height:1.5}
+.proof-label strong{color:var(--ink);display:block;font-weight:600;margin-bottom:4px}
+.proof-logos{display:flex;flex-wrap:wrap;gap:16px 40px;font-weight:600;font-size:15px;color:var(--muted)}
+.proof-logos span{opacity:0.7}
+
+.teaser-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr;grid-template-rows:repeat(3,auto);gap:20px}
+.teaser{background:#fff;border:1px solid var(--border);border-radius:22px;padding:32px;transition:all 0.25s;display:flex;flex-direction:column;min-height:280px;position:relative;overflow:hidden}
+.teaser:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 24px 48px -24px rgba(99,91,255,0.25)}
+.teaser.feature{grid-row:span 2;background:linear-gradient(160deg,rgba(99,91,255,0.06) 0%,rgba(0,212,180,0.04) 100%);border-color:rgba(99,91,255,0.2);min-height:580px}
+.teaser.dark{background:var(--ink);color:#fff;border-color:transparent}
+.teaser.dark .teaser-num{color:var(--accent-2)}
+.teaser.dark .teaser-desc{color:rgba(255,255,255,0.7)}
+.teaser.dark .teaser-cta{color:var(--accent-2)}
+.teaser-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;font-weight:700;margin-bottom:16px}
+.teaser-title{font-size:26px;font-weight:700;letter-spacing:-0.02em;line-height:1.2;margin-bottom:12px}
+.teaser.feature .teaser-title{font-size:36px;line-height:1.1}
+.teaser-desc{font-size:14px;color:var(--ink-mid);line-height:1.65;margin-bottom:20px;flex:1}
+.teaser-cta{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.1em;color:var(--accent);font-weight:700;text-transform:uppercase;display:inline-flex;align-items:center;gap:6px;margin-top:auto}
+.teaser-visual{position:absolute;right:-30px;bottom:-30px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(99,91,255,0.2) 0%,transparent 70%);pointer-events:none}
+@media (max-width:1024px){.teaser-grid{grid-template-columns:1fr 1fr} .teaser.feature{grid-row:auto;min-height:340px}}
+@media (max-width:700px){.teaser-grid{grid-template-columns:1fr}}
+
+.clients{padding:56px 40px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--bg-softer)}
+.clients-lbl{text-align:center;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.2em;color:var(--muted);text-transform:uppercase;margin-bottom:32px}
+.clients-lbl strong{color:var(--ink);font-weight:700}
+.clients-grid{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);border-left:1px solid var(--border);border-top:1px solid var(--border)}
+.client-cell{padding:24px 20px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:15px;color:var(--muted);background:#fff;min-height:80px;text-align:center}
+@media (max-width:900px){.clients-grid{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:560px){.clients-grid{grid-template-columns:repeat(2,1fr)}}
+
+@media (max-width:1200px){.hero-stats{position:static;width:100%;grid-template-columns:repeat(3,1fr);margin-top:48px}}
+@media (max-width:900px){.hero-stats{grid-template-columns:1fr} .proof{grid-template-columns:1fr;gap:20px}}
+</style>
+<!-- SEO ~ auto-injected by _workspace/inject-seo.js ~ -->
+<link rel="canonical" href="https://itcl.kr/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ITCL · IT커뮤니케이션연구소">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="IT커뮤니케이션연구소 | 사람과 AI의 연결을 만드는 전문 교육 파트너">
+<meta property="og:description" content="누적 수강생 50,000명, 1,000+ 기업·기관이 선택한 생성형 AI 교육 전문 기관. 대표강사 김덕진 소장, 김아람 이사가 함께합니다.">
+<meta property="og:url" content="https://itcl.kr/">
+<meta property="og:image" content="https://itcl.kr/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="IT커뮤니케이션연구소 | 사람과 AI의 연결을 만드는 전문 교육 파트너">
+<meta name="twitter:description" content="누적 수강생 50,000명, 1,000+ 기업·기관이 선택한 생성형 AI 교육 전문 기관. 대표강사 김덕진 소장, 김아람 이사가 함께합니다.">
+<meta name="twitter:image" content="https://itcl.kr/assets/og-default.png">
+<meta name="theme-color" content="#635bff">
+<meta name="robots" content="index,follow">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<!-- ~ end SEO block ~ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "EducationalOrganization",
+  "@id": "https://itcl.kr/#organization",
+  "name": "IT커뮤니케이션연구소",
+  "alternateName": "ITCL",
+  "url": "https://itcl.kr",
+  "logo": "https://itcl.kr/assets/logo.png",
+  "description": "생성형 AI 교육 전문 연구소. C-Level부터 실무자까지 조직 맞춤 교육을 제공합니다.",
+  "foundingDate": "2019",
+  "founder": {
+    "@type": "Person",
+    "name": "김덕진",
+    "alternateName": "Kim Dukjin",
+    "jobTitle": "IT커뮤니케이션연구소 소장"
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "월드컵로 190, 이안상암2 12층 1205호",
+    "addressLocality": "마포구",
+    "addressRegion": "서울특별시",
+    "addressCountry": "KR"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+82-2-6953-3379",
+    "contactType": "customer service",
+    "email": "info@itcl.kr",
+    "availableLanguage": [
+      "Korean"
+    ]
+  },
+  "sameAs": []
+}
+</script>
+</head>
+<body>
+<script>window.ITCL_PAGE='home';window.ITCL_BASE='.';</script>
+
+<section class="hero">
+  <div class="mesh"></div>
+  <div class="mesh-grid"></div>
+  <div class="hero-inner">
+    <div class="pill"><span class="pill-tag">NEW</span>2026 AI 트렌드&amp;활용백과 출간<span style="color:var(--muted)">→</span></div>
+    <h1 class="h1">사람과 AI의<br/><span class="grad">연결</span>을 만드는<br/>전문 교육 파트너</h1>
+    <p class="hero-lead">누적 수강생 50,000명, 누적 도서 판매 13만 부. 대한민국 대표 기업과 공공기관이 가장 많이 찾는 생성형 AI 교육 파트너.</p>
+    <div class="cta-row">
+      <a href="pages/contact.html" class="btn-primary">강의 문의하기 →</a>
+      <a href="pages/programs.html" class="btn-outline">교육 프로그램 보기</a>
+    </div>
+
+    <div class="proof">
+      <div class="proof-label"><strong>Trusted by</strong>1,000+ 기업 · 기관이<br/>ITCL을 선택했습니다</div>
+      <div class="proof-logos">
+        <span>삼성그룹</span><span>SK그룹</span><span>LG전자</span><span>현대자동차</span><span>KB금융그룹</span><span>신한금융그룹</span><span>두산그룹</span><span>행정안전부</span><span>한국수자원공사</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat-card"><div class="lbl">누적 수강 인원</div><div class="num">50,000<span>+</span></div><div class="desc">삼성·SK·LG 등 대기업 임직원</div></div>
+    <div class="stat-card"><div class="lbl">누적 도서 판매</div><div class="num">130,000<span>부</span></div><div class="desc">AI 트렌드&amp;활용백과 시리즈</div></div>
+    <div class="stat-card"><div class="lbl">2025 강연 실적</div><div class="num">300<span>+</span></div><div class="desc">기업·기관 출강 건수</div></div>
+  </div>
+</section>
+
+<!-- CLIENTS — 관리자 페이지에서 편집 가능 (/pages/admin/clients.html). 하드코딩된 값은 fallback. -->
+<section class="clients" id="clientsSection">
+  <div class="clients-lbl" id="clientsLbl"><strong>Trusted by 1,000+ organizations</strong> · 대한민국을 대표하는 기업·공공기관이 선택한 AI 교육 파트너</div>
+  <div class="clients-grid" id="clientsGrid">
+    <div class="client-cell">삼성그룹</div><div class="client-cell">SK그룹</div><div class="client-cell">LG전자</div><div class="client-cell">현대자동차</div><div class="client-cell">KB금융그룹</div>
+    <div class="client-cell">신한금융그룹</div><div class="client-cell">두산그룹</div><div class="client-cell">롯데그룹</div><div class="client-cell">GS그룹</div><div class="client-cell">한화그룹</div>
+    <div class="client-cell">크래프톤</div><div class="client-cell">대검찰청</div><div class="client-cell">행정안전부</div><div class="client-cell">한국수자원공사</div><div class="client-cell">국회의정연수원</div>
+  </div>
+</section>
+<script>
+  // 관리자 페이지에서 등록한 클라이언트 목록으로 덮어쓰기. 실패/404면 위 하드코딩 유지.
+  (function() {
+    function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+    fetch('/api/public/section?page=clients').then(function(r){ return r.ok ? r.json() : null; }).then(function(data){
+      if (!data || !data.content) return;
+      var c = data.content;
+      if (c.kicker || c.label) {
+        var kicker = c.kicker ? '<strong>' + esc(c.kicker) + '</strong>' : '';
+        var label = c.label ? ' ' + esc(c.label) : '';
+        document.getElementById('clientsLbl').innerHTML = kicker + label;
+      }
+      var items = (c.items || []).filter(function(it){ return it.is_active !== false; })
+        .sort(function(a,b){ return (a.display_order||0) - (b.display_order||0); });
+      if (items.length) {
+        document.getElementById('clientsGrid').innerHTML = items.map(function(it){
+          if (it.logo_url) {
+            return '<div class="client-cell"><img src="' + esc(it.logo_url) + '" alt="' + esc(it.name||'') + '" loading="lazy" style="max-width:100%;max-height:48px;object-fit:contain;" /></div>';
+          }
+          return '<div class="client-cell">' + esc(it.name||'') + '</div>';
+        }).join('');
+      }
+    }).catch(function(){ /* keep fallback */ });
+  })();
+</script>
+
+<!-- EXPLORE — teaser grid linking to subpages -->
+<section class="sec">
+  <div class="container">
+    <div class="sec-kicker">Explore ITCL</div>
+    <h2 class="sec-title">조직에 꼭 맞는<br/><span class="grad">교육을 찾아보세요.</span></h2>
+    <p class="sec-lead">각 영역별 상세 페이지에서 커리큘럼·강사진·실제 교육 사례까지 확인할 수 있습니다.</p>
+
+    <div class="teaser-grid">
+      <a href="pages/programs.html" class="teaser feature">
+        <div class="teaser-num">01 · Flagship Program</div>
+        <h3 class="teaser-title">워크플로우 기반<br/>AI 활용 역량강화</h3>
+        <p class="teaser-desc">업무 프로세스를 세분화하고 각 단계에서 AI와 인간의 강점을 결합하는 4개 모듈 체계적 프로그램. 기업별 맞춤 구성 가능합니다.</p>
+        <span class="teaser-cta">프로그램 자세히 보기 →</span>
+        <div class="teaser-visual"></div>
+      </a>
+      <a href="pages/leaders.html" class="teaser">
+        <div class="teaser-num">02 · Lead Instructors</div>
+        <h3 class="teaser-title">대표강사<br/>김덕진 · 김아람</h3>
+        <p class="teaser-desc">대중과 15년 이상 소통해온 두 IT커뮤니케이터가 이끕니다.</p>
+        <span class="teaser-cta">프로필 보기 →</span>
+      </a>
+      <a href="pages/partners.html" class="teaser">
+        <div class="teaser-num">03 · Partners</div>
+        <h3 class="teaser-title">16명의<br/>전문 강사진</h3>
+        <p class="teaser-desc">주제·산업·직무별 검증된 파트너 강사 매칭.</p>
+        <span class="teaser-cta">강사진 보기 →</span>
+      </a>
+      <a href="pages/services.html" class="teaser">
+        <div class="teaser-num">04 · Services</div>
+        <h3 class="teaser-title">4대 핵심<br/>교육 서비스</h3>
+        <p class="teaser-desc">트렌드 인사이트부터 워크플로우 자동화까지.</p>
+        <span class="teaser-cta">서비스 보기 →</span>
+      </a>
+      <a href="pages/insights.html" class="teaser dark">
+        <div class="teaser-num">05 · Insights</div>
+        <h3 class="teaser-title">AI 인사이트 &amp;<br/>연구소 칼럼</h3>
+        <p class="teaser-desc">대표강사들이 직접 쓰는 AI 트렌드·거버넌스·워크플로우 분석.</p>
+        <span class="teaser-cta">칼럼 읽기 →</span>
+      </a>
+      <a href="pages/cases.html" class="teaser">
+        <div class="teaser-num">06 · Training Cases</div>
+        <h3 class="teaser-title">실제 기업<br/>교육 사례</h3>
+        <p class="teaser-desc">삼성·SK·KB금융·행정안전부 등 진행 사례.</p>
+        <span class="teaser-cta">사례 보기 →</span>
+      </a>
+      <a href="pages/resources.html" class="teaser">
+        <div class="teaser-num">07 · Resources</div>
+        <h3 class="teaser-title">저서 &amp;<br/>미디어 출연</h3>
+        <p class="teaser-desc">13만 부 AI 트렌드 백과 시리즈 · 방송 출연.</p>
+        <span class="teaser-cta">리소스 →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-strip">
+  <div class="stats-inner">
+    <div class="stat-big"><div class="n">50,000<em>+</em></div><div class="d">누적 수강 인원</div></div>
+    <div class="stat-big"><div class="n">130,000<em>+</em></div><div class="d">누적 도서 판매 부수</div></div>
+    <div class="stat-big"><div class="n">1,000<em>+</em></div><div class="d">협업 기업 · 기관</div></div>
+    <div class="stat-big"><div class="n">18<em>명</em></div><div class="d">검증된 전문 강사 그룹</div></div>
+  </div>
+</div>
+
+<!-- CTA -->
+<section class="sec" style="padding:80px 40px 120px">
+  <div class="container" style="text-align:center">
+    <div class="sec-kicker" style="justify-content:center">Get Started</div>
+    <h2 class="sec-title" style="margin-left:auto;margin-right:auto;text-align:center">귀사의 AI 혁신,<br/><span class="grad">ITCL과 시작하세요.</span></h2>
+    <p class="sec-lead" style="margin-left:auto;margin-right:auto;text-align:center">검증된 강사 섭외부터 교육 콘텐츠 기획·운영·성과 측정까지. 조직의 AI 역량강화에 필요한 모든 단계를 한 곳에서 해결합니다.</p>
+    <div class="cta-row" style="justify-content:center">
+      <a href="pages/contact.html" class="btn-primary">강의 문의하기 →</a>
+      <a href="pages/process.html" class="btn-outline">의뢰 프로세스 보기</a>
+    </div>
+  </div>
+</section>
+
+<script src="./assets/layout.js"></script>
+</body>
+</html>

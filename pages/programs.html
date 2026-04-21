@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>교육 프로그램 · ITCL</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"/>
+<link rel="stylesheet" href="../assets/styles.css"/>
+<style>
+.programs-dark{background:var(--ink);color:#fff;position:relative;overflow:hidden;padding:100px 40px}
+.programs-dark::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 50% 40% at 15% 20%,rgba(99,91,255,0.2),transparent 60%),radial-gradient(ellipse 40% 50% at 85% 80%,rgba(0,212,180,0.15),transparent 60%);pointer-events:none}
+.programs-dark .container{position:relative}
+.programs-dark .sec-kicker{color:var(--accent-2)}
+.programs-dark .sec-kicker::before{background:var(--accent-2)}
+.programs-dark .sec-title{color:#fff}
+.programs-dark .sec-title .grad{background:linear-gradient(110deg,var(--accent-2),var(--accent-3));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.programs-dark .sec-lead{color:rgba(255,255,255,0.7)}
+.flagship{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);border-radius:24px;padding:48px;margin-bottom:56px;display:grid;grid-template-columns:1fr 1.1fr;gap:56px;align-items:center}
+.flagship-badge{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.18em;color:var(--accent-2);text-transform:uppercase;padding:6px 14px;border:1px solid rgba(0,212,180,0.4);border-radius:999px;background:rgba(0,212,180,0.08);margin-bottom:20px;font-weight:600}
+.flagship-title{font-size:36px;font-weight:700;line-height:1.1;letter-spacing:-0.025em;margin-bottom:20px}
+.flagship-title em{font-style:normal;background:linear-gradient(110deg,var(--accent-2),var(--accent-3));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.flagship-desc{color:rgba(255,255,255,0.78);font-size:15px;line-height:1.75;margin-bottom:24px}
+.flagship-specs{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.flagship-specs div{padding:12px 14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:10px;font-size:12px;color:rgba(255,255,255,0.75);line-height:1.4}
+.flagship-specs strong{display:block;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--accent-2);margin-bottom:4px;letter-spacing:0.1em;text-transform:uppercase;font-weight:700}
+.modules-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.module-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:24px 22px}
+.module-card:hover{border-color:rgba(0,212,180,0.4);background:rgba(0,212,180,0.04)}
+.module-num{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent-2);margin-bottom:10px;letter-spacing:0.1em;font-weight:700}
+.module-title{font-size:18px;font-weight:700;letter-spacing:-0.02em;margin-bottom:6px;line-height:1.2}
+.module-sub{font-size:12px;color:rgba(255,255,255,0.55);margin-bottom:14px}
+.module-items{list-style:none}
+.module-items li{font-size:13px;color:rgba(255,255,255,0.8);padding:6px 0 6px 14px;position:relative;border-bottom:1px solid rgba(255,255,255,0.06)}
+.module-items li:last-child{border-bottom:none}
+.module-items li::before{content:'';position:absolute;left:0;top:12px;width:6px;height:1px;background:var(--accent-2)}
+.courses-header{display:flex;align-items:flex-end;justify-content:space-between;margin-top:32px;margin-bottom:24px;gap:32px;flex-wrap:wrap}
+.courses-header .lbl{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent-2);letter-spacing:0.18em;text-transform:uppercase;margin-bottom:10px;font-weight:600}
+.courses-header h3{font-size:30px;font-weight:700;letter-spacing:-0.025em;color:#fff}
+.courses-header h3 em{font-style:normal;color:var(--accent-2)}
+.courses-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.course-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:24px 22px;transition:all 0.25s}
+.course-card:hover{border-color:rgba(99,91,255,0.4);background:rgba(99,91,255,0.05);transform:translateY(-2px)}
+.course-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);margin-bottom:12px;letter-spacing:0.1em;font-weight:700}
+.course-title{font-size:17px;font-weight:700;letter-spacing:-0.015em;line-height:1.25;margin-bottom:6px}
+.course-sub{font-size:12px;color:rgba(255,255,255,0.55);margin-bottom:14px;line-height:1.5}
+.course-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.course-tag{font-family:'JetBrains Mono',monospace;font-size:10px;color:rgba(255,255,255,0.7);background:rgba(255,255,255,0.06);padding:3px 9px;border-radius:999px;font-weight:500}
+.course-meta{display:flex;gap:12px;font-family:'JetBrains Mono',monospace;font-size:10px;color:rgba(255,255,255,0.5);padding-top:12px;border-top:1px solid rgba(255,255,255,0.08);letter-spacing:0.05em;text-transform:uppercase}
+@media (max-width:1024px){.flagship{grid-template-columns:1fr;gap:36px;padding:32px}}
+@media (max-width:900px){.programs-dark{padding:80px 20px}}
+
+.process-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+.process-step{background:#fff;border:1px solid var(--border);border-radius:14px;padding:24px 20px;transition:all 0.2s}
+.process-step:hover{border-color:var(--accent);transform:translateY(-3px)}
+.process-num{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:0.1em;margin-bottom:16px;font-weight:700}
+.process-num .dot{width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.process-title{font-size:16px;font-weight:700;margin-bottom:8px;letter-spacing:-0.015em;line-height:1.2}
+.process-desc{font-size:12px;color:var(--ink-mid);line-height:1.55}
+@media (max-width:1024px){.process-grid{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:560px){.process-grid{grid-template-columns:repeat(2,1fr)}}
+</style><!-- SEO ~ auto-injected by _workspace/inject-seo.js ~ -->
+<link rel="canonical" href="https://itcl.kr/pages/programs.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ITCL · IT커뮤니케이션연구소">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="교육 프로그램 · ITCL">
+<meta property="og:description" content="Flagship 6개월 과정부터 4시간 특강까지. ITCL이 설계한 조직 상황별 AI 교육 프로그램 7종.">
+<meta property="og:url" content="https://itcl.kr/pages/programs.html">
+<meta property="og:image" content="https://itcl.kr/assets/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="교육 프로그램 · ITCL">
+<meta name="twitter:description" content="Flagship 6개월 과정부터 4시간 특강까지. ITCL이 설계한 조직 상황별 AI 교육 프로그램 7종.">
+<meta name="twitter:image" content="https://itcl.kr/assets/og-default.png">
+<meta name="theme-color" content="#635bff">
+<meta name="robots" content="index,follow">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<!-- ~ end SEO block ~ -->
+</head>
+<body>
+<script>window.ITCL_PAGE='programs';window.ITCL_BASE='..';</script>
+
+<section class="page-hero"><div class="mesh"></div><div class="page-hero-inner">
+  <div class="crumb"><a href="../index.html">Home</a><span class="sep">/</span><span>Programs</span></div>
+  <h1 class="page-title">체계적 역량강화부터<br/><span class="grad">주제별 단기 과정</span>까지.</h1>
+  <p class="page-lead">업무 프로세스 전 단계를 커버하는 플래그십 프로그램과, 60분~3시간으로 독립 수강 가능한 단기 과정을 함께 운영합니다.</p>
+</div></section>
+
+<section class="programs-dark">
+  <div class="container">
+    <div class="sec-kicker">Flagship Program</div>
+    <h2 class="sec-title">워크플로우 기반<br/><span class="grad">AI 활용 역량강화</span></h2>
+    <p class="sec-lead">AI를 "만능 해결사"가 아닌 "강력한 도구"로, 사람을 "도구 사용자"가 아닌 "전략가"로. 업무 프로세스를 세분화하고 각 단계에서 AI와 인간의 강점을 결합하는 체계적 프로그램입니다.</p>
+
+    <div class="flagship">
+      <div>
+        <span class="flagship-badge">◆ Flagship Program</span>
+        <h3 class="flagship-title">4개 모듈로<br/>완성하는 <em>AI 역량강화</em></h3>
+        <p class="flagship-desc">모듈당 7시간 · 1일 구성. 이론 20% + 실습 60% + 워크숍 20%의 비율로 설계되어, 교육 종료 직후 현업에 바로 적용 가능한 결과물을 산출합니다.</p>
+        <div class="flagship-specs">
+          <div><strong>Duration</strong>모듈당 7시간 × 4개 모듈</div>
+          <div><strong>Format</strong>이론 + 실습 + 워크숍</div>
+          <div><strong>Target</strong>전 직무 리더 · 실무자</div>
+          <div><strong>Custom</strong>기업별 맞춤 구성 가능</div>
+        </div>
+      </div>
+      <div class="modules-grid">
+        <div class="module-card"><div class="module-num">M1</div><div class="module-title">AI 기반 정보 수집·분석</div><div class="module-sub">정보 전략가로 성장하기</div>
+          <ul class="module-items"><li>AI 정보 수집 혁신</li><li>상황별 워크플로우</li><li>프롬프트 설계</li><li>할루시네이션 제어</li></ul></div>
+        <div class="module-card"><div class="module-num">M2</div><div class="module-title">AI 활용 전략 수립</div><div class="module-sub">AI를 사고 파트너로</div>
+          <ul class="module-items"><li>과제 정의</li><li>구조화·시나리오</li><li>대안 개발</li><li>실행 계획 수립</li></ul></div>
+        <div class="module-card"><div class="module-num">M3</div><div class="module-title">AI 기반 프로젝트 관리</div><div class="module-sub">반복 작업 자동화</div>
+          <ul class="module-items"><li>착수~종료 전 과정</li><li>WBS 자동 생성</li><li>리스크 예측</li><li>대시보드 자동화</li></ul></div>
+        <div class="module-card"><div class="module-num">M4</div><div class="module-title">AI 활용 보고서 작성</div><div class="module-sub">작성 시간 단축</div>
+          <ul class="module-items"><li>유형별 AI 활용법</li><li>구조화·시각화</li><li>리뷰·개선 실습</li><li>실전 워크숍</li></ul></div>
+      </div>
+    </div>
+
+    <div class="courses-header">
+      <div><div class="lbl">Short Courses</div><h3>주제별 단기 과정 <em>7종</em></h3></div>
+    </div>
+    <div class="courses-grid">
+      <div class="course-card"><div class="course-num">01</div><div class="course-title">AI 트렌드 인사이트</div><div class="course-sub">글로벌 AI 산업 동향과 비즈니스 시사점</div><div class="course-tags"><span class="course-tag">트렌드</span><span class="course-tag">임원진</span><span class="course-tag">CES·MWC</span></div><div class="course-meta"><span>60~120분</span><span>전달형</span></div></div>
+      <div class="course-card"><div class="course-num">02</div><div class="course-title">AI 핵심 도구 비교 실습</div><div class="course-sub">ChatGPT·Gemini·Claude·Perplexity</div><div class="course-tags"><span class="course-tag">도구 비교</span><span class="course-tag">입문자</span><span class="course-tag">프롬프팅</span></div><div class="course-meta"><span>90분~반일</span><span>실습형</span></div></div>
+      <div class="course-card"><div class="course-num">03</div><div class="course-title">AI 리서치 워크플로우</div><div class="course-sub">검색 → 분석 → 보고서 전 과정 자동화</div><div class="course-tags"><span class="course-tag">Deep Research</span><span class="course-tag">NotebookLM</span><span class="course-tag">실무</span></div><div class="course-meta"><span>2~3시간</span><span>실습형</span></div></div>
+      <div class="course-card"><div class="course-num">04</div><div class="course-title">AI 콘텐츠 제작 실습</div><div class="course-sub">이미지·디자인·영상까지</div><div class="course-tags"><span class="course-tag">이미지 생성</span><span class="course-tag">미리캔버스</span><span class="course-tag">SNS</span></div><div class="course-meta"><span>2~3시간</span><span>실습형</span></div></div>
+      <div class="course-card"><div class="course-num">05</div><div class="course-title">AI 에이전트 &amp; 업무 자동화</div><div class="course-sub">바이브코딩에서 워크플로우 자동화까지</div><div class="course-tags"><span class="course-tag">Canvas</span><span class="course-tag">GPTs</span><span class="course-tag">심화</span></div><div class="course-meta"><span>2~3시간</span><span>혼합형</span></div></div>
+      <div class="course-card"><div class="course-num">06</div><div class="course-title">AI 리스크와 의사결정</div><div class="course-sub">AI 도입·운영의 리스크 전략적 관리</div><div class="course-tags"><span class="course-tag">거버넌스</span><span class="course-tag">의사결정</span><span class="course-tag">임원진</span></div><div class="course-meta"><span>90분~2시간</span><span>전달+토론</span></div></div>
+      <div class="course-card"><div class="course-num">07</div><div class="course-title">제로클릭 시대 마케팅</div><div class="course-sub">AI가 바꾸는 소비자 접점, SEO→AEO</div><div class="course-tags"><span class="course-tag">AEO</span><span class="course-tag">Loop Marketing</span><span class="course-tag">마케팅</span></div><div class="course-meta"><span>60~90분</span><span>전달형</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" style="background:var(--bg-soft)">
+  <div class="container">
+    <div class="sec-kicker">How We Work</div>
+    <h2 class="sec-title">교육 의뢰부터 <span class="grad">성과 측정</span>까지.</h2>
+    <p class="sec-lead">검증된 강사 추천부터 풍부한 콘텐츠까지, ITCL 안에서 모든 고민이 해결됩니다.</p>
+    <div class="process-grid">
+      <div class="process-step"><div class="process-num"><span class="dot"></span>Step 01</div><div class="process-title">교육 니즈 파악</div><div class="process-desc">현황과 요구사항 분석으로 맞춤 방향을 설계합니다.</div></div>
+      <div class="process-step"><div class="process-num"><span class="dot"></span>Step 02</div><div class="process-title">강사 추천</div><div class="process-desc">주제와 니즈에 맞는 최적의 강사를 큐레이션합니다.</div></div>
+      <div class="process-step"><div class="process-num"><span class="dot"></span>Step 03</div><div class="process-title">콘텐츠 협의</div><div class="process-desc">교육 대상과 목적에 맞게 콘텐츠를 기획·조율합니다.</div></div>
+      <div class="process-step"><div class="process-num"><span class="dot"></span>Step 04</div><div class="process-title">강연 진행</div><div class="process-desc">일정과 내용을 확정하고 교육을 진행합니다.</div></div>
+      <div class="process-step"><div class="process-num"><span class="dot"></span>Step 05</div><div class="process-title">모니터링·설문</div><div class="process-desc">교육 효과를 측정하고 만족도 설문을 진행합니다.</div></div>
+      <div class="process-step"><div class="process-num"><span class="dot"></span>Step 06</div><div class="process-title">강연료 정산</div><div class="process-desc">완료 후 강연료를 신속하게 정산합니다.</div></div>
+    </div>
+    <div style="text-align:center;margin-top:48px">
+      <a href="contact.html" class="btn-primary">프로그램 문의하기 →</a>
+    </div>
+  </div>
+</section>
+
+<script src="../assets/layout.js"></script>
+</body></html>
