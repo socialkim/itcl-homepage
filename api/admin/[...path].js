@@ -394,10 +394,10 @@ async function handleSubmissions(req, res) {
 async function handleUpload(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const token = process.env.GITHUB_TOKEN;
-  const owner = process.env.GITHUB_OWNER;
-  const repo = process.env.GITHUB_REPO;
-  const branch = process.env.GITHUB_BRANCH || 'main';
+  const token = (process.env.GITHUB_TOKEN || '').trim();
+  const owner = (process.env.GITHUB_OWNER || '').trim();
+  const repo = (process.env.GITHUB_REPO || '').trim();
+  const branch = (process.env.GITHUB_BRANCH || 'main').trim();
 
   if (!token || !owner || !repo) {
     return res.status(500).json({
