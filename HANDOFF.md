@@ -4,7 +4,7 @@
 >
 > **사용법**: 새 Claude Code 세션에서 `C:/Users/kimdu/claude/itcl/HANDOFF.md` 를 읽게 하고 "이 문서 기준으로 다음 작업 이어줘"라고 지시하면 된다.
 
-**최종 업데이트**: 2026-04-20 아침 (Part 3 완료 + 404 버그 수정 + 동작 검증 완료)
+**최종 업데이트**: 2026-04-23 (Part 5 — GitHub 연동 완료 + Blocked 해결 + 업로드 end-to-end 성공)
 **작업 폴더**: `C:\Users\kimdu\claude\itcl\`
 **사용자**: 김덕진 (Kim Dukjin, IT커뮤니케이션연구소 소장)
 
@@ -13,7 +13,7 @@
 1. **`schema-admin.sql` Supabase에서 실행** (1분) — 관리자 페이지 DB 준비.
    - 메모장으로 이미 열려있음. 전체 복사 → https://supabase.com/dashboard/project/sxvhyrubjzqebmpeeqws/sql → 붙여넣기 → Run.
 2. **`ADMIN-CREDENTIALS.md` 확인** — 관리자 로그인 비밀번호.
-3. **관리자 페이지 접속**: 최신 URL/pages/admin (현재: `https://itcl-o87x6cqpy-socialkim0211-3722s-projects.vercel.app/pages/admin`)
+3. **관리자 페이지 접속**: 최신 URL/pages/admin (현재: `https://itcl.vercel.app/pages/admin`)
 
 ---
 
@@ -44,7 +44,10 @@
 
 ### Vercel
 - 프로젝트 slug: `socialkim0211-3722s-projects/itcl`
-- 최신 프로덕션 URL (Part 3 종료 시점): `https://itcl-o87x6cqpy-socialkim0211-3722s-projects.vercel.app`
+- **고정 프로덕션 URL: `https://itcl.vercel.app`** (Part 4에서 GitHub 연동으로 획득)
+- Git 저장소: `socialkim/itcl-homepage` (Vercel 자동 배포 연결됨)
+- 배포 트리거: `git push origin main` → 1~2분 내 자동 반영
+- 이전 배포 URL들도 유효 (히스토리 접근 가능)
 - 함수 수: **3개** (Hobby 플랜 12개 한도 대비 여유) — 기존 16개에서 catch-all 통합으로 축소
   - `api/contact.js`: 문의 폼 + Resend 이메일
   - `api/admin/[...path].js`: 모든 관리자 엔드포인트 통합
@@ -63,13 +66,24 @@
 - **중요**: 이 프로젝트는 **신 API 키 체계만 활성** (`sb_publishable_...` / `sb_secret_...`). 레거시 JWT (`eyJhbGciOi...`)는 존재하지 않음
 - Dashboard: https://supabase.com/dashboard/project/sxvhyrubjzqebmpeeqws
 
-### Vercel 환경변수
+### Vercel 환경변수 (Production)
 - `SUPABASE_SECRET_KEY` : Supabase service_role 키 (sb_secret_...)
 - `RESEND_API_KEY` : Resend API 키 (re_...)
 - `ADMIN_PASSWORD` : 관리자 로그인 비밀번호 (ADMIN-CREDENTIALS.md 참조)
 - `ADMIN_SESSION_SECRET` : 세션 쿠키 HMAC 서명 시크릿 (64자 hex)
+- `GITHUB_TOKEN` : PAT (`socialkim/itcl-homepage` contents:write)
+- `GITHUB_OWNER` : `socialkim`
+- `GITHUB_REPO` : `itcl-homepage`
 - ⚠️ 모든 키는 절대 프론트 파일·Git·채팅에 반영 금지
-- ⚠️ Preview 환경에는 `SUPABASE_SECRET_KEY`, `RESEND_API_KEY`만 반영됨. 필요 시 ADMIN_* 도 수동 추가.
+- ⚠️ `echo "val" | vercel env add` 는 trailing `\n` 저장됨 → 코드에서 반드시 `.trim()` 처리
+- ⚠️ Preview 환경 누락 시 Preview 배포에서 API 에러 발생할 수 있음 — 필요하면 수동 추가
+
+### GitHub 연동 (Part 4~5)
+- **Repo**: `https://github.com/socialkim/itcl-homepage` (Public)
+- **Vercel 연결**: `git push origin main` → 자동 배포 (1~2분)
+- **고정 URL**: `https://itcl.vercel.app`
+- ⚠️ **Repo는 반드시 Public 유지** — Private 전환 시 Vercel Hobby 플랜 제약으로 배포 Blocked
+- Pro 플랜 ($20/월) 업그레이드하면 Private 가능
 
 ### Resend (이메일 발송)
 - 계정: socialkim0211 가입 (Gmail OAuth)
@@ -283,6 +297,25 @@ robots.txt                     # admin/api 차단 + sitemap 선언
 - [x] UTF-8 인코딩 함정 발견 및 수정 (Buffer + charset=utf-8)
 - [x] 실제 폼 → 3개 메일함 수신 + 한글 정상 렌더링 확인
 
+### Part 5 (2026-04-23 — Blocked 해결 + 업로드 end-to-end 성공)
+- [x] Vercel env vars 3종 등록 (GITHUB_TOKEN/OWNER/REPO) — UI 오류 → CLI 우회
+- [x] Git 푸시 후 배포 Blocked 문제 진단 — Hobby 플랜 private repo 제약
+- [x] `socialkim/itcl-homepage` Public 전환 → Blocked 해제
+- [x] env var 줄바꿈 trim 처리 (handleUpload에서 `.trim()`)
+- [x] 실제 업로드 테스트 통과: `https://itcl.vercel.app/api/admin/upload` → GitHub commit → raw URL 정상
+- [x] 보안: 클립보드 PAT 자동 정리, 클립보드 기반 env 등록 패턴 확립
+
+### Part 4 (2026-04-21 — GitHub 연동 + 클라이언트 CMS + 파일 업로드)
+- [x] 메인 페이지 "Trusted by" 섹션 CMS화 — 관리자에서 기업명/로고/순서/활성 편집
+- [x] `pages/admin/clients.html` 신설 (15개 기본 기업 seed 버튼 포함)
+- [x] `api/public/[...path].js`에 `clients` page_key 화이트리스트 추가
+- [x] `index.html` 동적 렌더링 (fallback 하드코딩 15개 유지)
+- [x] 파일 업로드 기능 — base64 → GitHub Contents API → raw URL
+- [x] `api/admin/upload` 엔드포인트 (GITHUB_TOKEN/OWNER/REPO env 필요)
+- [x] **GitHub repo 생성 및 push** — `https://github.com/socialkim/itcl-homepage`
+- [x] **Vercel Git 연동** — `itcl.vercel.app` 고정 URL + git push 자동 배포
+- [x] `.gitignore` 정비 (ADMIN-CREDENTIALS, _workspace, 수파베이스 메모 등 제외)
+
 ### Part 3 후속 (2026-04-20 아침 — 404 버그 수정 + 동작 검증)
 - [x] 로그인 후 404 발생 버그 진단 — Vercel cleanUrls + 상대경로 리다이렉트 충돌
 - [x] `pages/admin/index.html` 로그인 리다이렉트 절대경로 전환
@@ -426,7 +459,7 @@ cd "C:/Users/kimdu/claude/itcl" && vercel --prod --yes
 vercel ls itcl
 
 # 현재 배포 URL curl 테스트 (한글 포함)
-curl -s -X POST "https://itcl-o87x6cqpy-socialkim0211-3722s-projects.vercel.app/api/contact" \
+curl -s -X POST "https://itcl.vercel.app/api/contact" \
   -H "Content-Type: application/json; charset=utf-8" \
   --data-binary @"C:/Users/kimdu/claude/itcl/_workspace/test_payload.json"
 
